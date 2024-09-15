@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="./dist/main.css" rel="stylesheet">
+
+    <title>Les petits plats</title>
+</head>
+
+<body class="bg-[#EDEDED]">
+    <header class="w-full h-[667px] flex justify-center items-center relative">
+        <img class="left-10 top-10 absolute z-10" src="./assets/logos/Logo.svg" alt="Logo les petits plats">
+        <div class="z-10">
+            <h1 class="font-anton text-yellow-400 text-5xl leading-[66px] text-center">CHERCHEZ PARMI PLUS DE 1500 RECETTES <br>
+                DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES
+            </h1>
+            <div class="flex justify-between w-inpt h-[72px] p-2 mt-10 rounded-lg bg-white">
+                <input type="text" id="searchbar-input" class="w-[90%] h-30 p-1 focus:outline-none" placeholder="Rechercher une recette, un ingrédient...">
+                <div class="flex justify-center align-middle gap-4">
+                    <button id="btn-delete-search-text" class="p-3">
+                        <img class="w-4" src="./assets/icons/delete.svg" alt="Icone de suppression">
+                    </button>
+                    <div class="bg-black w-14 h-14 p-4 rounded-lg flex justify-center align-middle">
+                        <img src="./assets/icons/search-white.svg" alt="Icone de recherche">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img class="absolute z-0 w-full h-full object-cover" src="./assets/logos/lampos.png" alt="Logo les petits plats">
+    </header>
+    <main class="flex flex-col p-5 px-20 gap-10">
+        <div class="w-full flex justify-between items-center">
+            <div class="flex flex-row align-middle justify-center gap-10">
+                <select class="select-style" name="" id="ingredients-select">
+                    <option value="" disabled selected>Ingrédients</option>
+                </select>
+                <select class="select-style" name="" id="appliance-select">
+                    <option value="" disabled selected>Appareils</option>
+                </select>
+                <select class="select-style" name="" id="ustensils-select">
+                    <option value="" disabled selected>Ustensiles</option>
+                </select>
+            </div>
+            <h2 class="font-anton text-center">1500 recettes</h2>
+        </div>
+        <div class="cards-container flex flex-wrap justify-between w-full m-0 gap-11">
+        </div>
+    </main>
+    <script type="module" src="./scripts/pages/index.js"></script>
+</body>
+</html>
