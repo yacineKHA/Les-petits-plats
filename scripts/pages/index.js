@@ -1,5 +1,7 @@
 import { createRecipeCard } from "../components/createRecipeCard.js";
 import { addOptionsToSelect, fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
+import { deleteSearchInputValue, searchListener } from "../ui/searchBar.js";
+
 
 async function initializeFilters(recipes) {
     try {
@@ -21,59 +23,28 @@ async function initializeFilters(recipes) {
     }
 }
 
-async function searchByRecipesAndIngredients(input) {
-    let searchValue;
-    searchValue = input.value;
-    console.log('searchValue: ', searchValue);
-    if (searchValue.length >= 3) {
-        const recipes = await fetchRecipes(searchValue);
-        deletePreviousData();
-        initializeFilters(recipes);
-        displayCards(recipes);
-    }
-}
-
-function searchListener() {
-    const input = document.getElementById('searchbar-input');
-    
-    input.addEventListener('input', () => {
-        searchByRecipesAndIngredients(input);
-    });
-}
-
-function deletePreviousData() {
-    const cardsContainer = document.getElementsByClassName('cards-container')[0];
-    cardsContainer.innerHTML = '';
-    const ingredientsSelect = Array.from(document.getElementsByClassName('select-style'));
-    ingredientsSelect.forEach(select => {
-        select.options.length = 1;
-    });
-}
-
-function deleteSearchInput() {
-    const btn = document.getElementById('btn-delete-search-text');
-    btn.addEventListener('click', () => {
-        const input = document.getElementById('searchbar-input');
-        input.value = '';
-    });
-}
-
-deleteSearchInput();
 
 async function displayCards(recipes) {
     try {
+        const fragment = document.createDocumentFragment();
+
         const cardsContainer = document.getElementsByClassName('cards-container')[0];
-        console.log('cardsContainer', cardsContainer);
 
         recipes.forEach(recipe => {
-            console.log('recipe', recipe);
             const card = createRecipeCard(recipe);
-            cardsContainer.appendChild(card);
+            fragment.appendChild(card);
         });
+
+        cardsContainer.appendChild(fragment);
 
     } catch (error) {
         console.error('Erreur lors de l\'initialisation des cards: ', error);
     }
+}
+
+function initilizeSearchBar() {
+    searchListener(initializeFilters, displayCards);
+    deleteSearchInputValue();
 }
 
 async function init() {
@@ -81,12 +52,11 @@ async function init() {
         const recipes = await fetchRecipes();
         initializeFilters(recipes);
         displayCards(recipes);
+        initilizeSearchBar();
         
     } catch (error) {
         console.error(`Erreur lors de l'init index: `, error);
     }
 }
 
-searchListener();
-document.addEventListener('DOMContentLoaded', init);
-
+init();

@@ -2,7 +2,6 @@ export async function fetchRecipes(searchValue = null) {
     try {
         const response = await fetch('/data/recipes.json');
         const recipes = await response.json();
-        console.log('recipesRespo: ', recipes);
 
         if (searchValue && searchValue.length >= 3) {
             return searchRecipes(recipes, searchValue);
