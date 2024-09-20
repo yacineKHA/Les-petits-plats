@@ -20,7 +20,7 @@
             <div class="flex justify-between w-inpt h-[72px] p-2 mt-10 rounded-lg bg-white">
                 <input type="text" id="searchbar-input" class="w-[90%] h-30 p-1 focus:outline-none" placeholder="Rechercher une recette, un ingrédient...">
                 <div class="flex justify-center align-middle gap-4">
-                    <button id="btn-delete-search-text" class="p-3">
+                    <button id="btn-delete-search-text" class="p-3 invisible">
                         <img class="w-4" src="./assets/icons/delete.svg" alt="Icone de suppression">
                     </button>
                     <div class="bg-black w-14 h-14 p-4 rounded-lg flex justify-center align-middle">
@@ -34,13 +34,13 @@
     <main class="flex flex-col p-5 px-20 gap-10">
         <div class="w-full flex justify-between items-center">
             <div class="flex flex-row align-middle justify-center gap-10">
-                <select class="select-style" name="" id="ingredients-select">
+                <select class="dropdown-menu" name="" id="ingredients-select">
                     <option value="" disabled selected>Ingrédients</option>
                 </select>
-                <select class="select-style" name="" id="appliance-select">
+                <select class="dropdown-menu" name="" id="appliance-select">
                     <option value="" disabled selected>Appareils</option>
                 </select>
-                <select class="select-style" name="" id="ustensils-select">
+                <select class="dropdown-menu" name="" id="ustensils-select">
                     <option value="" disabled selected>Ustensiles</option>
                 </select>
             </div>

@@ -1,9 +1,10 @@
 import { createRecipeCard } from "../components/createRecipeCard.js";
-import { addOptionsToSelect, fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
+import { addOptionsToDropdownMenus, fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
+import { dropdrownMenus } from "../ui/dropdownMenus.js";
 import { deleteSearchInputValue, searchListener } from "../ui/searchBar.js";
 
 
-async function initializeFilters(recipes) {
+async function initializeFiltersInDropdownMenus(recipes) {
     try {
         if (recipes.length === 0) {
             console.error('Pas de recettes trouvées');
@@ -14,9 +15,9 @@ async function initializeFilters(recipes) {
         const appliances = getFilteredUniqueItems(recipes, 'appliance');
         const ustensils = getFilteredUniqueItems(recipes, 'ustensils', null, true);
 
-        addOptionsToSelect(ingredients, document.getElementById('ingredients-select'));
-        addOptionsToSelect(appliances, document.getElementById('appliance-select'));
-        addOptionsToSelect(ustensils, document.getElementById('ustensils-select'));
+        addOptionsToDropdownMenus(ingredients, document.getElementById('ingredients-select'));
+        addOptionsToDropdownMenus(appliances, document.getElementById('appliance-select'));
+        addOptionsToDropdownMenus(ustensils, document.getElementById('ustensils-select'));
 
     } catch (error) {
         console.error('Erreur lors de l\'initialisation des filtres: ', error);
@@ -43,14 +44,14 @@ async function displayCards(recipes) {
 }
 
 function initilizeSearchBar() {
-    searchListener(initializeFilters, displayCards);
-    deleteSearchInputValue();
+    searchListener(initializeFiltersInDropdownMenus, displayCards);
+    deleteSearchInputValue(initializeFiltersInDropdownMenus, displayCards);
 }
 
 async function init() {
     try {
         const recipes = await fetchRecipes();
-        initializeFilters(recipes);
+        initializeFiltersInDropdownMenus(recipes);
         displayCards(recipes);
         initilizeSearchBar();
         
@@ -58,5 +59,7 @@ async function init() {
         console.error(`Erreur lors de l'init index: `, error);
     }
 }
+
+dropdrownMenus();
 
 init();

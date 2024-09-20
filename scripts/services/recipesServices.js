@@ -44,7 +44,7 @@ export function getFilteredUniqueItems(recipes, elementsToFilter, element = null
     return itemsSet; // Retourne les éléments uniques grâce à la méthode Set();
 }
 
-export function addOptionsToSelect(itemsSet, elementSelected) {
+export function addOptionsToDropdownMenus(itemsSet, elementSelected) {
     itemsSet.forEach(item => {
         const option = document.createElement('option');
         option.value = item;

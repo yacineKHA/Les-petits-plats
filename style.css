@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.select-style {
+.dropdown-menu {
     @apply bg-white p-2 rounded w-[188px] h-[56px] cursor-pointer;
 }
