@@ -1,6 +1,6 @@
 import { createRecipeCard } from "../components/createRecipeCard.js";
 import { addOptionsToDropdownMenus, fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
-import { dropdrownMenus } from "../ui/dropdownMenus.js";
+import { opendropdrownMenus } from "../ui/dropdownMenus.js";
 import { deleteSearchInputValue, searchListener } from "../ui/searchBar.js";
 
 
@@ -15,12 +15,13 @@ async function initializeFiltersInDropdownMenus(recipes) {
         const appliances = getFilteredUniqueItems(recipes, 'appliance');
         const ustensils = getFilteredUniqueItems(recipes, 'ustensils', null, true);
 
-        addOptionsToDropdownMenus(ingredients, document.getElementById('ingredients-select'));
-        addOptionsToDropdownMenus(appliances, document.getElementById('appliance-select'));
-        addOptionsToDropdownMenus(ustensils, document.getElementById('ustensils-select'));
+        addOptionsToDropdownMenus(ingredients, document.getElementById('ingredients-list'));
+        addOptionsToDropdownMenus(appliances, document.getElementById('appliances-list'));
+        addOptionsToDropdownMenus(ustensils, document.getElementById('ustensils-list'));
+
 
     } catch (error) {
-        console.error('Erreur lors de l\'initialisation des filtres: ', error);
+        console.error('Erreur lors de l\'initialisation des données des filtres: ', error);
     }
 }
 
@@ -60,6 +61,10 @@ async function init() {
     }
 }
 
-dropdrownMenus();
+
+opendropdrownMenus("ingredients-dropdown", "ingredients-menu");
+opendropdrownMenus("appliances-dropdown", "appliances-menu");
+opendropdrownMenus("ustensils-dropdown", "ustensils-menu");
+
 
 init();

@@ -19,9 +19,9 @@ export function searchRecipes(recipes, searchValue) {
         return (
             recipe.name.toLowerCase().includes(lowerCaseSearchValue) ||
             recipe.description.toLowerCase().includes(lowerCaseSearchValue) ||
-            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(lowerCaseSearchValue)) ||
-            recipe.appliance.toLowerCase().includes(lowerCaseSearchValue) ||
-            recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(lowerCaseSearchValue))
+
+            // Some => pour verifier si au moins un élément du tableau (ingredients) correspond à la recherche
+            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(lowerCaseSearchValue))
         );
     });
 }
@@ -46,9 +46,8 @@ export function getFilteredUniqueItems(recipes, elementsToFilter, element = null
 
 export function addOptionsToDropdownMenus(itemsSet, elementSelected) {
     itemsSet.forEach(item => {
-        const option = document.createElement('option');
-        option.value = item;
-        option.text = item;
-        elementSelected.appendChild(option);
+        const div = document.createElement('div');
+        div.textContent = item;
+        elementSelected.appendChild(div);
     });
 }

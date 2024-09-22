@@ -34,9 +34,9 @@ export async function reloadCardsAndSelectsData(...args) {
 function deletePreviousDataInCardsAndDropdownMenus() {
     const cardsContainer = document.getElementsByClassName('cards-container')[0];
     cardsContainer.innerHTML = '';
-    const selectElements = Array.from(document.getElementsByClassName('dropdown-menu'));
-    selectElements.forEach(select => {
-        select.options.length = 1;
+    const dropdownList = Array.from(document.getElementsByClassName('dropdown-list'));
+    dropdownList.forEach(list => {
+        list.innerHTML = '';
     });
 }
 
