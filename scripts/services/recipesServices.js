@@ -1,13 +1,13 @@
 import { createOptionElementForDropdownList } from "../components/createOptionElementForDropdownList.js";
+import { createSelectedOptionTag } from "../components/createSelectedOptionTag.js";
 import { displayCards, initializeFiltersInDropdownMenus } from "../pages/index.js";
 import { getAllSelectedValuesInDropdownFilters } from "../ui/dropdownMenus.js";
 import { searchByRecipesAndIngredients } from "../ui/searchBar.js";
 
-export async function fetchRecipes(searchValue = null, selectedFilters = []) {
+export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
     try {
         const response = await fetch('/data/recipes.json');
         const recipes = await response.json();
-
 
         return filterRecipesWithFilters(recipes, selectedFilters, searchValue);
 
@@ -31,9 +31,7 @@ export function searchRecipes(recipes, searchValue) {
 }
 
 export function filterRecipesWithFilters(recipes, selectedFilters, searchValue = null) {
-    const { ingredients, appliance, ustensils } = selectedFilters;
-
-    console.log("val: ", selectedFilters);
+    const { ingredients, appliances, ustensils } = selectedFilters;
 
     if (searchValue && searchValue.length >= 3) {
         recipes = searchRecipes(recipes, searchValue); 
@@ -44,27 +42,19 @@ export function filterRecipesWithFilters(recipes, selectedFilters, searchValue =
         // Filtres par ingrédients
         let matchesIngredients = true;
         if (ingredients && ingredients.length) {
-            matchesIngredients = ingredients.every(selectedIngredient =>
-                recipe.ingredients.some(ingredient => 
-                    ingredient.ingredient.toLowerCase() === selectedIngredient.toLowerCase()
-                )
-            );
+            matchesIngredients = filterByIngredients(ingredients, matchesIngredients, recipe)
         }
 
         // Filtres par appareils
         let matchesAppliance = true;
-        if (appliance) { 
-            matchesAppliance = appliance.toLowerCase() === recipe.appliance.toLowerCase();
+        if (appliances && appliances.length) { 
+            matchesAppliance = filterByAppliance(appliances, matchesAppliance, recipe);
         }
 
         // Filtres par ustensiles
         let matchesUstensils = true;
         if (ustensils && ustensils.length) {
-            matchesUstensils = ustensils.every(selectedUstensil =>
-                recipe.ustensils.some(ustensil => 
-                    ustensil.toLowerCase() === selectedUstensil.toLowerCase()
-                )
-            );
+            matchesUstensils = filterByUstensils(ustensils, matchesUstensils, recipe)
         }
 
         // Si tous les filtres correspondent, on garde la recette
@@ -72,6 +62,31 @@ export function filterRecipesWithFilters(recipes, selectedFilters, searchValue =
     });
    
     return filteredRecipes;
+}
+
+function filterByIngredients(ingredients, matchesIngredients, recipe) {
+    matchesIngredients = ingredients.every(selectedIngredient =>
+        recipe.ingredients.some(ingredient => 
+            ingredient.ingredient.toLowerCase() === selectedIngredient.toLowerCase()
+        )
+    );
+    return matchesIngredients;
+}
+
+function filterByAppliance(appliances, matchesAppliance, recipe) {
+    matchesAppliance = appliances.every( selectedAppliance => 
+        selectedAppliance.toLowerCase() === recipe.appliance.toLowerCase()
+   );
+   return matchesAppliance;
+}
+
+function filterByUstensils(ustensils, matchesUstensils, recipe) {
+    matchesUstensils = ustensils.every(selectedUstensil =>
+        recipe.ustensils.some(ustensil => 
+            ustensil.toLowerCase() === selectedUstensil.toLowerCase()
+        )
+    );
+    return matchesUstensils;
 }
 
 export function getFilteredUniqueItems(recipes, elementsToFilter, element = null, array = false) {
@@ -111,16 +126,15 @@ function closeDropDownMenu(dropdownContainer) {
     menu.classList.add("hidden");
 }
 
-export function showSelectedOption(option, dropdownId) {
+export function showSelectedOption(option, dropdownParentId) {
     try {
-        const dropdownContainer = document.getElementById(dropdownId);
+        // Récupère le container pour y ajouter l'élément
+        const dropdownContainer = document.getElementById(dropdownParentId);
         
-        const selectedItem = dropdownContainer.querySelector(".dropdown-selected-item");
-        selectedItem.classList.remove("invisible");
+        // Création d'un item
+        const newSelectedItem = createSelectedOptionTag(option.textContent, dropdownParentId);
 
-        const paragraph = dropdownContainer.querySelector("p");
-        paragraph.textContent = option.textContent;
-
+        dropdownContainer.appendChild(newSelectedItem);
         closeDropDownMenu(dropdownContainer);
 
     } catch (error) {
@@ -131,6 +145,6 @@ export function showSelectedOption(option, dropdownId) {
 // Mise à jour des filtres et cards selon filtres et recherches
 export async function updateCardsAndFilters() {
     const input = document.getElementById('searchbar-input');
-    
-    searchByRecipesAndIngredients(input, initializeFiltersInDropdownMenus, displayCards)
+
+    searchByRecipesAndIngredients(input, initializeFiltersInDropdownMenus, displayCards);
 }

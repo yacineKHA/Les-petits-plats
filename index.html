@@ -14,11 +14,13 @@
     <header class="w-full h-[667px] flex justify-center items-center relative">
         <img class="left-10 top-10 absolute z-10" src="./assets/logos/Logo.svg" alt="Logo les petits plats">
         <div class="z-10">
-            <h1 class="font-anton text-yellow-400 text-5xl leading-[66px] text-center">CHERCHEZ PARMI PLUS DE 1500 RECETTES <br>
+            <h1 class="font-anton text-yellow-400 text-5xl leading-[66px] text-center">CHERCHEZ PARMI PLUS DE 1500
+                RECETTES <br>
                 DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES
             </h1>
             <div class="flex justify-between w-inpt h-[72px] p-2 mt-10 rounded-lg bg-white">
-                <input type="text" id="searchbar-input" class="w-[90%] h-30 p-1 focus:outline-none" placeholder="Rechercher une recette, un ingrédient...">
+                <input type="text" id="searchbar-input" class="w-[90%] h-30 p-1 focus:outline-none"
+                    placeholder="Rechercher une recette, un ingrédient...">
                 <div class="flex justify-center align-middle gap-4">
                     <button id="btn-delete-search-text" class="p-3 invisible">
                         <img class="w-4" src="./assets/icons/delete.svg" alt="Icone de suppression">
@@ -29,7 +31,8 @@
                 </div>
             </div>
         </div>
-        <img class="absolute z-0 w-full h-full object-cover" src="./assets/logos/lampos.png" alt="Logo les petits plats">
+        <img class="absolute z-0 w-full h-full object-cover" src="./assets/logos/lampos.png"
+            alt="Logo les petits plats">
     </header>
     <main class="flex flex-col p-5 px-20 gap-10">
         <div class="w-full flex justify-between items-center">
@@ -43,20 +46,20 @@
                             <div class="dropdown-header">
                                 <input id="ingredients-input" class="dropdown-input" type="text">
                                 <div class="dropdown-icons-container">
-                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
-                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg">
+                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg"
+                                        alt="Icone de recherche" />
                                 </div>
                             </div>
                             <div id="ingredients-list" class="dropdown-list">
                             </div>
                         </div>
                     </div>
-                    <div id="ingredient-selected" class="dropdown-selected-item invisible">
-                        <p></p>
-                        <img src="./assets/icons/delete-black.svg">
+                    <div class="dropdown-selected-items-container">
+                        
                     </div>
                 </div>
-                
+
                 <div id="appliances-container" class="flex flex-col">
                     <div class="dropdown-container">
                         <div id="appliances-dropdown" class="dropdown-title">
@@ -66,18 +69,18 @@
                             <div class="dropdown-header">
                                 <input id="appliances-input" class="dropdown-input" type="text">
                                 <div class="dropdown-icons-container">
-                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
-                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg">
+                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg"
+                                        alt="Icone de recherche" />
                                 </div>
                             </div>
                             <div id="appliances-list" class="dropdown-list">
-                                
+
                             </div>
                         </div>
                     </div>
-                    <div id="appliance-selected" class="dropdown-selected-item invisible">
-                        <p></p>
-                        <img src="./assets/icons/delete-black.svg">
+                    <div class="dropdown-selected-items-container">
+                        
                     </div>
                 </div>
                 <div id="ustensils-container" class="flex flex-col">
@@ -89,21 +92,21 @@
                             <div class="dropdown-header">
                                 <input id="ingredients-input" class="dropdown-input" type="text">
                                 <div class="dropdown-icons-container">
-                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
-                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg">
+                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg"
+                                        alt="Icone de recherche" />
                                 </div>
                             </div>
                             <div id="ustensils-list" class="dropdown-list">
-                                
+
                             </div>
                         </div>
                     </div>
-                    <div id="ustensil-selected" class="dropdown-selected-item invisible">
-                        <p></p>
-                        <img src="./assets/icons/delete-black.svg">
+                    <div class="dropdown-selected-items-container">
+                        
                     </div>
                 </div>
-                
+
             </div>
             <h2 class="font-anton text-center">1500 recettes</h2>
         </div>
@@ -112,4 +115,5 @@
     </main>
     <script type="module" src="./scripts/pages/index.js"></script>
 </body>
+
 </html>

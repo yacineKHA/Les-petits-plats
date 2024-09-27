@@ -22,33 +22,32 @@ export function opendropdrownMenus(dropdownId, dropdownMenuId) {
 export function getAllSelectedValuesInDropdownFilters() {
     const dropdownsSelectedItems = Array.from(document.getElementsByClassName("dropdown-selected-item"));
 
-    let valuesObject = {
+    let arrayOfSelectedItems = {
         ingredients: [],
-        appliance: null,
+        appliances: [],
         ustensils: []
     };
 
-    dropdownsSelectedItems.forEach(element => {
+    dropdownsSelectedItems.forEach(element =>{
+        // Récup de la catégorie
+        const cat = element.getAttribute("data-category");
+        const text = element.textContent;
 
-        // Récup l'ID de l'élément sélectionné
-        const elementId = element.id;
-
-        // Récup le paragraphe de l'élément sélectionné
-        const paragraph = element.querySelector("p");
-
-        if (paragraph && paragraph.textContent) {
-            const value = paragraph.textContent.trim();
-
-            // Vérif si son id contient le mot correspondant
-            if (elementId.includes('ingredient')) {
-                valuesObject.ingredients.push(value);
-            } else if (elementId.includes('appliance')) {
-                valuesObject.appliance = value;
-            } else if (elementId.includes('ustensil')) {
-                valuesObject.ustensils.push(value);
+        // Ajout du texte élément dans la catégorie correspondante
+        if(cat) {
+            if(cat === "ingredient") {
+                arrayOfSelectedItems.ingredients.push(text);
+            } else if(cat === "appliance") {
+                arrayOfSelectedItems.appliances.push(text);
+            } else if(cat === "ustensil") {
+                arrayOfSelectedItems.ustensils.push(text);
+            } else {
+                console.error(`La data-category de l'élément ne correspond à aucune catégorie attendue`)
             }
+        } else {
+            console.error(`L'élément ne possède pas de data-category`)
         }
     });
 
-    return valuesObject;
+    return arrayOfSelectedItems;
 }

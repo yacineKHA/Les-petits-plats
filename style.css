@@ -2,8 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --------- Recipes card -------------- */
+.card-container {
+    @apply bg-white h-[731px] w-[380px] flex flex-col shadow-md rounded-[21px] overflow-hidden m-4;
+}
 
-/* Dropdown filters */
+.card-image-container {
+    @apply relative w-full h-[253px] overflow-hidden;
+}
+
+.card-image {
+    @apply w-full h-full object-cover mx-auto;
+}
+
+.card-title {
+    @apply font-anton font-medium;
+}
+
+.card-body {
+    @apply flex flex-col w-full p-8 gap-5;
+}
+
+/* --------- Dropdown filters ---------------- */
 .dropdown-container {
     @apply w-[195px] h-fit bg-white rounded-xl relative;
 }
@@ -42,6 +62,10 @@
 
 .dropdown-options {
     @apply  py-3 px-4 cursor-pointer hover:bg-[#FFD15B];
+}
+
+.dropdown-selected-items-container {
+    @apply flex flex-col gap-3;
 }
 
 .dropdown-selected-item {

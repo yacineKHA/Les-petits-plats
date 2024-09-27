@@ -10,7 +10,7 @@ export function searchListener(...args) {
     });
 }
 
-export async function searchByRecipesAndIngredients(input, ...cardsAndDropdowns) {
+export async function searchByRecipesAndIngredients(input, ...cardsAndDropdownsFunctions) {
     const searchValue = input.value;
     let recipes = null;
 
@@ -19,8 +19,7 @@ export async function searchByRecipesAndIngredients(input, ...cardsAndDropdowns)
         const deleteBtn = document.getElementById('btn-delete-search-text');
         deleteBtn.classList.remove('invisible');
 
-        recipes = await fetchRecipes(searchValue, getAllSelectedValuesInDropdownFilters());
-        
+        recipes = await fetchRecipes(searchValue, getAllSelectedValuesInDropdownFilters());        
     } else {
         recipes = await fetchRecipes(null, getAllSelectedValuesInDropdownFilters());
     }
@@ -31,14 +30,14 @@ export async function searchByRecipesAndIngredients(input, ...cardsAndDropdowns)
         deletePreviousDataInCardsAndDropdownMenus();
 
         // Mise à jour des cards et dropdowns
-        cardsAndDropdowns.forEach(item => {
+        cardsAndDropdownsFunctions.forEach(item => {
             item(recipes);
         });
     }
 }
 
 
-export function deleteSearchInputValue(...cardsAndDropdowns) {
+export function deleteSearchInputValue(...cardsAndDropdownsFunctions) {
     const deleteBtn = document.getElementById('btn-delete-search-text');
 
     deleteBtn.addEventListener('click', async () => {
@@ -52,7 +51,7 @@ export function deleteSearchInputValue(...cardsAndDropdowns) {
         //Suppression des anciennes données
         deletePreviousDataInCardsAndDropdownMenus();
 
-        cardsAndDropdowns.forEach(item => {
+        cardsAndDropdownsFunctions.forEach(item => {
             item(recipes);
         });
     });

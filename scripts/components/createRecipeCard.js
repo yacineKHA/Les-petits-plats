@@ -6,20 +6,20 @@ export function createRecipeCard(data) {
 
     // Création de la card
     const card = document.createElement('div');
-    card.classList.add('bg-white', 'h-[731px]','w-[380px]' ,"m-0", 'flex','flex-col', 'shadow-md', 'rounded-[21px]', 'overflow-hidden', 'm-4');
+    card.classList.add("card-container");
 
     // Conteneur de l'image
     const imageContainer = document.createElement('div');
-    imageContainer.classList.add('relative', 'w-full', 'h-[253px]', 'overflow-hidden');
+    imageContainer.classList.add('card-image-container');
 
     // Création de l'image
     const img = document.createElement('img');
-    img.classList.add('card-img-top', 'w-full','object-cover', 'center', 'h-full');
+    img.classList.add('card-image');
     img.src = `/assets/images/${recipe.image}`;
 
     // Création du body
     const cardBody = document.createElement('div');
-    cardBody.classList.add('card-body', "w-full", 'p-8');
+    cardBody.classList.add('card-body');
 
     // Création du titre
     const title = document.createElement('h3');
@@ -47,19 +47,16 @@ export function createRecipeCard(data) {
 
     const recipeIngredients = document.createElement('p');
 
-    recipeContainer.appendChild(recipeTitle);
-    recipeContainer.appendChild(recipeDescription);
+    recipeContainer.append(recipeTitle, recipeDescription);
 
     // Ajout image au container
     imageContainer.appendChild(img);
 
     // Ajout éléments au body
-    cardBody.appendChild(title);
-    cardBody.appendChild(recipeContainer);
+    cardBody.append(title, recipeContainer);
 
     // Ajout éléments au conteneur de la card
-    card.appendChild(imageContainer);
-    card.appendChild(cardBody);
+    card.append(imageContainer, cardBody);
 
     return card;
 }

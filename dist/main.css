@@ -558,9 +558,6 @@ video {
 .m-0 {
   margin: 0px;
 }
-.m-4 {
-  margin: 1rem;
-}
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -573,17 +570,11 @@ video {
 .h-14 {
   height: 3.5rem;
 }
-.h-\[253px\] {
-  height: 253px;
-}
 .h-\[667px\] {
   height: 667px;
 }
 .h-\[72px\] {
   height: 72px;
-}
-.h-\[731px\] {
-  height: 731px;
 }
 .h-full {
   height: 100%;
@@ -593,9 +584,6 @@ video {
 }
 .w-4 {
   width: 1rem;
-}
-.w-\[380px\] {
-  width: 380px;
 }
 .w-\[90\%\] {
   width: 90%;
@@ -630,14 +618,11 @@ video {
 .gap-16 {
   gap: 4rem;
 }
+.gap-3 {
+  gap: 0.75rem;
+}
 .gap-4 {
   gap: 1rem;
-}
-.overflow-hidden {
-  overflow: hidden;
-}
-.rounded-\[21px\] {
-  border-radius: 21px;
 }
 .rounded-lg {
   border-radius: 0.5rem;
@@ -673,9 +658,6 @@ video {
 .p-5 {
   padding: 1.25rem;
 }
-.p-8 {
-  padding: 2rem;
-}
 .px-20 {
   padding-left: 5rem;
   padding-right: 5rem;
@@ -700,17 +682,56 @@ video {
   --tw-text-opacity: 1;
   color: rgb(250 204 21 / var(--tw-text-opacity));
 }
-.shadow-md {
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
 .filter {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
+/* --------- Recipes card -------------- */
+.card-container {
+  margin: 1rem;
+  display: flex;
+  height: 731px;
+  width: 380px;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 21px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
 
-/* Dropdown filters */
+.card-image-container {
+  position: relative;
+  height: 253px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.card-image {
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.card-title {
+  font-family: Anton, sans-serif;
+  font-weight: 500;
+}
+
+.card-body {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 2rem;
+}
+
+/* --------- Dropdown filters ---------------- */
 .dropdown-container {
   position: relative;
   height: -moz-fit-content;
@@ -799,6 +820,12 @@ video {
 .dropdown-options:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 209 91 / var(--tw-bg-opacity));
+}
+
+.dropdown-selected-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
 .dropdown-selected-item {
