@@ -1,51 +1,59 @@
 import { fetchRecipes } from "../services/recipesServices.js";
+import { deletePreviousDataInCardsAndDropdownMenus } from "../utils/recipesUtils.js";
+import { getAllSelectedValuesInDropdownFilters } from "./dropdownMenus.js";
 
 export function searchListener(...args) {
     const input = document.getElementById('searchbar-input');
-    
+
     input.addEventListener('input', () => {
         searchByRecipesAndIngredients(input, ...args);
     });
 }
 
-async function searchByRecipesAndIngredients(input, ...args) {
-    let searchValue;
-    searchValue = input.value;
-    if (searchValue.length >= 3) {
+export async function searchByRecipesAndIngredients(input, ...cardsAndDropdowns) {
+    const searchValue = input.value;
+    let recipes = null;
+
+    // Conditiion si recherche textuelle
+    if (searchValue && searchValue.length >= 3) {
         const deleteBtn = document.getElementById('btn-delete-search-text');
         deleteBtn.classList.remove('invisible');
-        const recipes = await fetchRecipes(searchValue);
+
+        recipes = await fetchRecipes(searchValue, getAllSelectedValuesInDropdownFilters());
+        
+    } else {
+        recipes = await fetchRecipes(null, getAllSelectedValuesInDropdownFilters());
+    }
+
+    // Si recettes non null
+    if (recipes) {
+        //Suppression des anciennes données
         deletePreviousDataInCardsAndDropdownMenus();
-        args.forEach(arg => {
-            arg(recipes);
+
+        // Mise à jour des cards et dropdowns
+        cardsAndDropdowns.forEach(item => {
+            item(recipes);
         });
     }
 }
 
-/* Recharger les données des cards et des selects avec les données de base
-export async function reloadCardsAndSelectsData(...args) {
-    const recipes = await fetchRecipes();
-    deletePreviousDataInCardsAndSelect();
-    args.forEach(arg => {
-        arg(recipes);
-    });
-}*/
 
-function deletePreviousDataInCardsAndDropdownMenus() {
-    const cardsContainer = document.getElementsByClassName('cards-container')[0];
-    cardsContainer.innerHTML = '';
-    const dropdownList = Array.from(document.getElementsByClassName('dropdown-list'));
-    dropdownList.forEach(list => {
-        list.innerHTML = '';
-    });
-}
-
-export function deleteSearchInputValue() {
+export function deleteSearchInputValue(...cardsAndDropdowns) {
     const deleteBtn = document.getElementById('btn-delete-search-text');
-    deleteBtn.addEventListener('click', () => {
+
+    deleteBtn.addEventListener('click', async () => {
         const input = document.getElementById('searchbar-input');
         deleteBtn.classList.add('invisible');
         input.value = '';
-        //reloadCardsAndSelectsData(...args);
+
+        // Récup des recettes sans filtres de recherches
+        const recipes = await fetchRecipes(null, getAllSelectedValuesInDropdownFilters());
+
+        //Suppression des anciennes données
+        deletePreviousDataInCardsAndDropdownMenus();
+
+        cardsAndDropdowns.forEach(item => {
+            item(recipes);
+        });
     });
 }

@@ -4,7 +4,7 @@ import { opendropdrownMenus } from "../ui/dropdownMenus.js";
 import { deleteSearchInputValue, searchListener } from "../ui/searchBar.js";
 
 
-async function initializeFiltersInDropdownMenus(recipes) {
+export async function initializeFiltersInDropdownMenus(recipes) {
     try {
         if (recipes.length === 0) {
             console.error('Pas de recettes trouvées');
@@ -15,9 +15,9 @@ async function initializeFiltersInDropdownMenus(recipes) {
         const appliances = getFilteredUniqueItems(recipes, 'appliance');
         const ustensils = getFilteredUniqueItems(recipes, 'ustensils', null, true);
 
-        addOptionsToDropdownMenus(ingredients, document.getElementById('ingredients-list'));
-        addOptionsToDropdownMenus(appliances, document.getElementById('appliances-list'));
-        addOptionsToDropdownMenus(ustensils, document.getElementById('ustensils-list'));
+        addOptionsToDropdownMenus(ingredients, document.getElementById('ingredients-list'), "ingredients-container");
+        addOptionsToDropdownMenus(appliances, document.getElementById('appliances-list'), "appliances-container");
+        addOptionsToDropdownMenus(ustensils, document.getElementById('ustensils-list'), "ustensils-container");
 
 
     } catch (error) {
@@ -26,7 +26,7 @@ async function initializeFiltersInDropdownMenus(recipes) {
 }
 
 
-async function displayCards(recipes) {
+export async function displayCards(recipes) {
     try {
         const fragment = document.createDocumentFragment();
 
@@ -49,6 +49,7 @@ function initilizeSearchBar() {
     deleteSearchInputValue(initializeFiltersInDropdownMenus, displayCards);
 }
 
+
 async function init() {
     try {
         const recipes = await fetchRecipes();
@@ -61,10 +62,8 @@ async function init() {
     }
 }
 
-
 opendropdrownMenus("ingredients-dropdown", "ingredients-menu");
 opendropdrownMenus("appliances-dropdown", "appliances-menu");
 opendropdrownMenus("ustensils-dropdown", "ustensils-menu");
-
 
 init();

@@ -627,17 +627,11 @@ video {
 .gap-11 {
   gap: 2.75rem;
 }
-.gap-24 {
-  gap: 6rem;
+.gap-16 {
+  gap: 4rem;
 }
 .gap-4 {
   gap: 1rem;
-}
-.gap-5 {
-  gap: 1.25rem;
-}
-.gap-16 {
-  gap: 4rem;
 }
 .overflow-hidden {
   overflow: hidden;
@@ -745,11 +739,12 @@ video {
   border-bottom-left-radius: 0.75rem;
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  padding: 1rem;
   padding-top: 0.5rem;
 }
 
 .dropdown-header {
+  margin-left: 1rem;
+  margin-right: 1rem;
   margin-bottom: 1.25rem;
   display: flex;
   width: 10rem;
@@ -791,7 +786,34 @@ video {
 .dropdown-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+}
+
+.dropdown-options {
+  cursor: pointer;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.dropdown-options:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 209 91 / var(--tw-bg-opacity));
+}
+
+.dropdown-selected-item {
+  margin-top: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 0.75rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 209 91 / var(--tw-bg-opacity));
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+.dropdown-selected-item img:hover {
+  cursor: pointer;
 }
 
 .focus\:outline-none:focus {

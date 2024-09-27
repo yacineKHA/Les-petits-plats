@@ -34,58 +34,76 @@
     <main class="flex flex-col p-5 px-20 gap-10">
         <div class="w-full flex justify-between items-center">
             <div class="flex justify-center align-middle gap-16">
-                <div class="dropdown-container">
-                    <div id="ingredients-dropdown" class="dropdown-title">
-                        Ingrédients
-                    </div>
-                    <div id="ingredients-menu" class="dropdown-menus hidden">
-                        <div class="dropdown-header">
-                            <input id="ingredients-input" class="dropdown-input" type="text">
-                            <div class="dropdown-icons-container">
-                                <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
-                                <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                <div id="ingredients-container" class="flex flex-col">
+                    <div class="dropdown-container">
+                        <div id="ingredients-dropdown" class="dropdown-title">
+                            Ingrédients
+                        </div>
+                        <div id="ingredients-menu" class="dropdown-menus hidden">
+                            <div class="dropdown-header">
+                                <input id="ingredients-input" class="dropdown-input" type="text">
+                                <div class="dropdown-icons-container">
+                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
+                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                                </div>
+                            </div>
+                            <div id="ingredients-list" class="dropdown-list">
                             </div>
                         </div>
-                        <div id="ingredients-list" class="dropdown-list">
-                            
-                        </div>
+                    </div>
+                    <div id="ingredient-selected" class="dropdown-selected-item invisible">
+                        <p></p>
+                        <img src="./assets/icons/delete-black.svg">
                     </div>
                 </div>
                 
-                <div class="dropdown-container">
-                    <div id="appliances-dropdown" class="dropdown-title">
-                        Appareils
-                    </div>
-                    <div id="appliances-menu" class="dropdown-menus hidden">
-                        <div class="dropdown-header">
-                            <input id="appliances-input" class="dropdown-input" type="text">
-                            <div class="dropdown-icons-container">
-                                <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
-                                <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                <div id="appliances-container" class="flex flex-col">
+                    <div class="dropdown-container">
+                        <div id="appliances-dropdown" class="dropdown-title">
+                            Appareils
+                        </div>
+                        <div id="appliances-menu" class="dropdown-menus hidden">
+                            <div class="dropdown-header">
+                                <input id="appliances-input" class="dropdown-input" type="text">
+                                <div class="dropdown-icons-container">
+                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
+                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                                </div>
+                            </div>
+                            <div id="appliances-list" class="dropdown-list">
+                                
                             </div>
                         </div>
-                        <div id="appliances-list" class="dropdown-list">
-                            
-                        </div>
+                    </div>
+                    <div id="appliance-selected" class="dropdown-selected-item invisible">
+                        <p></p>
+                        <img src="./assets/icons/delete-black.svg">
                     </div>
                 </div>
-                <div class="dropdown-container">
-                    <div id="ustensils-dropdown" class="dropdown-title">
-                        Ustensiles
-                    </div>
-                    <div id="ustensils-menu" class="dropdown-menus hidden">
-                        <div class="dropdown-header">
-                            <input id="ingredients-input" class="dropdown-input" type="text">
-                            <div class="dropdown-icons-container">
-                                <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
-                                <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                <div id="ustensils-container" class="flex flex-col">
+                    <div class="dropdown-container">
+                        <div id="ustensils-dropdown" class="dropdown-title">
+                            Ustensiles
+                        </div>
+                        <div id="ustensils-menu" class="dropdown-menus hidden">
+                            <div class="dropdown-header">
+                                <input id="ingredients-input" class="dropdown-input" type="text">
+                                <div class="dropdown-icons-container">
+                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg" >
+                                    <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg" alt="Icone de recherche" />
+                                </div>
+                            </div>
+                            <div id="ustensils-list" class="dropdown-list">
+                                
                             </div>
                         </div>
-                        <div id="ustensils-list" class="dropdown-list">
-                            
-                        </div>
+                    </div>
+                    <div id="ustensil-selected" class="dropdown-selected-item invisible">
+                        <p></p>
+                        <img src="./assets/icons/delete-black.svg">
                     </div>
                 </div>
+                
             </div>
             <h2 class="font-anton text-center">1500 recettes</h2>
         </div>
