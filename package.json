@@ -10,5 +10,8 @@
   },
   "scripts": {
     "dev": "postcss style.css -o dist/main.css --watch"
+  },
+  "dependencies": {
+    "line-clamp": "^1.0.0"
   }
 }

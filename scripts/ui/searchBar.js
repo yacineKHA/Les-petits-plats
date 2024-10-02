@@ -14,25 +14,37 @@ export async function searchByRecipesAndIngredients(input, ...cardsAndDropdownsF
     const searchValue = input.value;
     let recipes = null;
 
-    // Conditiion si recherche textuelle
-    if (searchValue && searchValue.length >= 3) {
-        const deleteBtn = document.getElementById('btn-delete-search-text');
-        deleteBtn.classList.remove('invisible');
+    try {
+        // Conditiion si recherche textuelle
+        if (searchValue && searchValue.length >= 3) {
+            const deleteBtn = document.getElementById('btn-delete-search-text');
+            deleteBtn.classList.remove('invisible');
 
-        recipes = await fetchRecipes(searchValue, getAllSelectedValuesInDropdownFilters());        
-    } else {
-        recipes = await fetchRecipes(null, getAllSelectedValuesInDropdownFilters());
-    }
+            recipes = await fetchRecipes(searchValue, getAllSelectedValuesInDropdownFilters());
+            
+        } else {
+            recipes = await fetchRecipes(null, getAllSelectedValuesInDropdownFilters());
+        }
 
-    // Si recettes non null
-    if (recipes) {
-        //Suppression des anciennes données
-        deletePreviousDataInCardsAndDropdownMenus();
+        // Si recettes non null
+        if (recipes) {
+            //Suppression des anciennes données
+            deletePreviousDataInCardsAndDropdownMenus();
 
-        // Mise à jour des cards et dropdowns
-        cardsAndDropdownsFunctions.forEach(item => {
-            item(recipes);
-        });
+            // Mise à jour des cards et dropdowns (promise.all pour etre sûr quelles aient terminées
+            //avant de passer à la suite)
+            await Promise.all(
+                cardsAndDropdownsFunctions.map((item) => {
+                    item(recipes);
+                })
+            );
+
+            return recipes;
+        }
+
+        
+    } catch (error) {
+        console.error('Erreur lors de la recherche des recettes : ', error);
     }
 }
 

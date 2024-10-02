@@ -37,7 +37,7 @@
     <main class="flex flex-col p-5 px-20 gap-10">
         <div class="w-full flex justify-between items-center">
             <div class="flex justify-center align-middle gap-16">
-                <div id="ingredients-container" class="flex flex-col">
+                <div id="ingredients-container" class="dropdown-main-container flex flex-col">
                     <div class="dropdown-container">
                         <div id="ingredients-dropdown" class="dropdown-title">
                             Ingrédients
@@ -46,7 +46,7 @@
                             <div class="dropdown-header">
                                 <input id="ingredients-input" class="dropdown-input" type="text">
                                 <div class="dropdown-icons-container">
-                                    <img class="dropdown-delete-icon hidden" src="./assets/icons/delete.svg">
+                                    <img class="dropdown-delete-icon invisible" src="./assets/icons/delete.svg">
                                     <img class="dropdown-search-icon" src="./assets/icons/search-grey.svg"
                                         alt="Icone de recherche" />
                                 </div>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
 
-                <div id="appliances-container" class="flex flex-col">
+                <div id="appliances-container" class="dropdown-main-container flex flex-col">
                     <div class="dropdown-container">
                         <div id="appliances-dropdown" class="dropdown-title">
                             Appareils
@@ -83,7 +83,7 @@
                         
                     </div>
                 </div>
-                <div id="ustensils-container" class="flex flex-col">
+                <div id="ustensils-container" class="dropdown-main-container flex flex-col">
                     <div class="dropdown-container">
                         <div id="ustensils-dropdown" class="dropdown-title">
                             Ustensiles
@@ -108,7 +108,9 @@
                 </div>
 
             </div>
-            <h2 class="font-anton text-center">1500 recettes</h2>
+            <h2 id="recipes-numbers" class="font-anton text-center">
+                1500 recettes
+            </h2>
         </div>
         <div class="cards-container flex flex-wrap justify-between w-full m-0 gap-11">
         </div>

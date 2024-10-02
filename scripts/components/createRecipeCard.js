@@ -1,4 +1,5 @@
 import { Recipe } from '../../models/Recipe.js';
+import Ingredient from '../../models/Ingredient.js';
 
 export function createRecipeCard(data) {
 
@@ -27,11 +28,11 @@ export function createRecipeCard(data) {
     title.classList.add('card-title');
 
     // Partie recette
-    const recipeContainer =  document.createElement('div');
+    const recipeContainer = document.createElement('div');
     recipeContainer.classList.add('card-recipe-container');
 
     const recipeTitle = document.createElement('h4');
-    recipeTitle.classList.add('card-recipe-title');
+    recipeTitle.classList.add('card-recipe-title', 'card-under-title');
     recipeTitle.textContent = 'Recette';
 
     const recipeDescription = document.createElement('p');
@@ -43,9 +44,34 @@ export function createRecipeCard(data) {
     recipeIngredientsContainer.classList.add('card-recipe-ingredients-container');
 
     const recipeIngredientsTitle = document.createElement('h4');
-    recipeIngredientsTitle.classList.add('card-recipe-ingredients-title');
+    recipeIngredientsTitle.classList.add('card-recipe-ingredients-title', 'card-under-title');
 
-    const recipeIngredients = document.createElement('p');
+    recipeIngredientsTitle.textContent = "Ingrédients";
+
+    const ingredientsListContainer = document.createElement("div");
+    ingredientsListContainer.classList.add("card-recipe-ingredients-list-container");
+
+    const ingredientsList = recipe.ingredients;
+
+    
+    ingredientsList.forEach(element => {
+        const ingredient = new Ingredient(element.ingredient, element.quantity, element?.unit);
+        const ingredientContainer = document.createElement("div");
+
+        const ingredientName = document.createElement("p");
+        const ingredientQuantity = document.createElement("p");
+        ingredientQuantity.classList.add("card-recipe-ingredients-quantity")
+
+        ingredientName.textContent = ingredient.name;
+        ingredientQuantity.textContent = ingredient.quantity
+            ? (ingredient.unit ? `${ingredient.quantity} ${ingredient.unit}` : `${ingredient.quantity}`)
+            : "-";
+
+        ingredientContainer.append(ingredientName, ingredientQuantity);
+        ingredientsListContainer.appendChild(ingredientContainer);
+    });
+
+    recipeIngredientsContainer.append(recipeIngredientsTitle, ingredientsListContainer);
 
     recipeContainer.append(recipeTitle, recipeDescription);
 
@@ -53,7 +79,7 @@ export function createRecipeCard(data) {
     imageContainer.appendChild(img);
 
     // Ajout éléments au body
-    cardBody.append(title, recipeContainer);
+    cardBody.append(title, recipeContainer, recipeIngredientsContainer);
 
     // Ajout éléments au conteneur de la card
     card.append(imageContainer, cardBody);

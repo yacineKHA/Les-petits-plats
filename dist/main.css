@@ -618,9 +618,6 @@ video {
 .gap-16 {
   gap: 4rem;
 }
-.gap-3 {
-  gap: 0.75rem;
-}
 .gap-4 {
   gap: 1rem;
 }
@@ -723,12 +720,49 @@ video {
   font-weight: 500;
 }
 
+.card-under-title {
+  margin-bottom: 0.75rem;
+  --tw-text-opacity: 1;
+  color: rgb(122 122 122 / var(--tw-text-opacity));
+}
+
 .card-body {
   display: flex;
   width: 100%;
   flex-direction: column;
   gap: 1.25rem;
   padding: 2rem;
+}
+
+.card-recipe-container {
+ 
+}
+
+
+.card-recipe-description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.card-recipe-ingredients-container{
+    
+}
+
+.card-recipe-ingredients-list-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card-recipe-ingredients-title {
+    
+}
+
+.card-recipe-ingredients-quantity {
+  --tw-text-opacity: 1;
+  color: rgb(122 122 122 / var(--tw-text-opacity));
 }
 
 /* --------- Dropdown filters ---------------- */

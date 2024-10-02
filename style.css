@@ -4,7 +4,8 @@
 
 /* --------- Recipes card -------------- */
 .card-container {
-    @apply bg-white h-[731px] w-[380px] flex flex-col shadow-md rounded-[21px] overflow-hidden m-4;
+    @apply bg-white h-[731px] w-[380px] flex flex-col 
+    shadow-md rounded-[21px] overflow-hidden m-4;
 }
 
 .card-image-container {
@@ -19,8 +20,37 @@
     @apply font-anton font-medium;
 }
 
+.card-under-title {
+    @apply text-[#7A7A7A] mb-3
+}
+
 .card-body {
     @apply flex flex-col w-full p-8 gap-5;
+}
+
+.card-recipe-container {
+ 
+}
+
+
+.card-recipe-description {
+    @apply line-clamp-4;
+}
+
+.card-recipe-ingredients-container{
+    
+}
+
+.card-recipe-ingredients-list-container {
+    @apply grid grid-cols-2 gap-4
+}
+
+.card-recipe-ingredients-title {
+    
+}
+
+.card-recipe-ingredients-quantity {
+    @apply text-[#7A7A7A];
 }
 
 /* --------- Dropdown filters ---------------- */
@@ -33,11 +63,13 @@
 }
 
 .dropdown-menus {
-    @apply overflow-y-auto overflow-x-hidden w-[195px] max-h-64 bg-white absolute z-10 top-[45px] rounded-b-xl pt-2;
+    @apply overflow-y-auto overflow-x-hidden w-[195px] max-h-64 
+    bg-white absolute z-10 top-[45px] rounded-b-xl pt-2;
 }
 
 .dropdown-header {
-    @apply flex justify-center align-middle w-40 border-2 border-[#C6C6C6] px-2 mb-5 mx-4;
+    @apply flex justify-center align-middle w-40 border-2 
+    border-[#C6C6C6] px-2 mb-5 mx-4;
 }
 
 .dropdown-input {
