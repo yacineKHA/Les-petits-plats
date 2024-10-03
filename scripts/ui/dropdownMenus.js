@@ -1,10 +1,9 @@
 import { setVisibilityOfDeleteSearchTextButton } from "../utils/searchInputsUtils.js";
+import { CATEGORIES } from '../utils/categories.js';
 
 export function opendropdrownMenus(dropdownId, dropdownMenuId) {
     const itemsDropdown = document.getElementById(dropdownId);
     const itemsMenu = document.getElementById(dropdownMenuId);
-
-    console.log("drp: ", dropdownMenuId)
 
     try {
         // Toggle pour ouvrir/fermer le menu
@@ -28,7 +27,7 @@ export function opendropdrownMenus(dropdownId, dropdownMenuId) {
 export function getAllSelectedValuesInDropdownFilters() {
     const dropdownsSelectedItem = document.getElementsByClassName("dropdown-selected-item");
 
-    if(!dropdownsSelectedItem) {
+    if (!dropdownsSelectedItem) {
         return console.error("Aucun élément de la classe dropdown-selected-item");
     }
 
@@ -42,16 +41,16 @@ export function getAllSelectedValuesInDropdownFilters() {
 
     dropdownsSelectedItemsArray.forEach(element => {
         // Récup de la catégorie
-        const cat = element.getAttribute("data-category");
+        const category = element.getAttribute("data-category");
         const text = element.textContent;
 
         // Ajout du texte élément dans la catégorie correspondante
-        if(cat) {
-            if(cat === "ingredients") {
+        if (category) {
+            if (category === CATEGORIES.ingredients) {
                 arrayOfSelectedItems.ingredients.push(text);
-            } else if(cat === "appliances") {
+            } else if (category === CATEGORIES.appliances) {
                 arrayOfSelectedItems.appliances.push(text);
-            } else if(cat === "ustensils") {
+            } else if (category === CATEGORIES.ustensils) {
                 arrayOfSelectedItems.ustensils.push(text);
             } else {
                 console.error(`La data-category de l'élément ne correspond à aucune catégorie attendue`)
@@ -68,12 +67,12 @@ function searchInDropdown(dropdownMenu) {
     const searchInput = dropdownMenu.getElementsByClassName("dropdown-input")[0];
     const deleteBtn = dropdownMenu.getElementsByClassName('dropdown-delete-icon')[0];
 
-    if(!searchInput) {
+    if (!searchInput) {
         console.error("La barre de recherche n'existe pas");
         return;
     }
 
-    searchInput.addEventListener('input', ()=>{
+    searchInput.addEventListener('input', () => {
         setVisibilityOfDeleteSearchTextButton(searchInput, deleteBtn);
     });
 
@@ -89,22 +88,29 @@ function deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput) {
     });
 }
 
-export async function deleteSelectedElementFromDropdown(optionClicked, dropdownId) {
-    const parentContainer = document.getElementById(dropdownId);
-    console.log("parent: ", parentContainer)
-    const list = Array.from(parentContainer.getElementsByClassName("dropdown-options"));
-    console.log("list: ", optionClicked.textContent);
+export function removeSelectedElementFromDropdownList() {
+    const getAllSelectedValues = getAllSelectedValuesInDropdownFilters();
 
-    const result = list.some(element => {
-        if (element.textContent.trim() === optionClicked.textContent.trim()) {
-            console.log("Élément trouvé: ", element);
-            element.remove();
-            return true;
-        }
-        return false;
-    });
-
-    if (!result) {
-        console.warn("Aucun élément correspondant trouvé dans la liste.");
+    try {
+        Object.keys(CATEGORIES).forEach((category) => {
+            const container = document.getElementById(`${category}-list`);
+    
+            if (!container) {
+                console.error(`Le conteneur avec l'ID ${category}-list n'existe pas.`);
+                return;
+            }
+    
+            const options = Array.from(container.getElementsByClassName("dropdown-options"));
+    
+            getAllSelectedValues[category].forEach((element) => {
+                options.forEach((option) => {
+                    if (option.textContent === element) {
+                        option.remove();
+                    }
+                })
+            });
+        });
+    } catch (error) {
+        console.error('Erreur lors de la suppression du tag: ', error)
     }
 }

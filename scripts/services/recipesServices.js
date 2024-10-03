@@ -1,7 +1,7 @@
 import { createOptionElementForDropdownList } from "../components/createOptionElementForDropdownList.js";
 import { createSelectedOptionTag } from "../components/createSelectedOptionTag.js";
 import { displayCards, initializeFiltersInDropdownMenus } from "../pages/index.js";
-import { deleteSelectedElementFromDropdown } from "../ui/dropdownMenus.js";
+import { removeSelectedElementFromDropdownList } from "../ui/dropdownMenus.js";
 import { searchByRecipesAndIngredients } from "../ui/searchBar.js";
 
 export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
@@ -121,9 +121,8 @@ export function handleClickOnSelectedOption(option, dropdownId) {
         try {
             showSelectedOption(option, dropdownId);
             const response = await updateCardsAndFilters();
-            console.log("réponse : ", response);
             if(response) {
-                deleteSelectedElementFromDropdown(option, dropdownId);
+                removeSelectedElementFromDropdownList();
             }
         } catch (error) {
             console.error("Erreur lors du click sur l'option sélectionnée: ", error);

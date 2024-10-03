@@ -1,5 +1,6 @@
 import { updateCardsAndFilters } from "../services/recipesServices.js";
-import { getAllSelectedValuesInDropdownFilters } from "../ui/dropdownMenus.js";
+import { removeSelectedElementFromDropdownList, getAllSelectedValuesInDropdownFilters } from "../ui/dropdownMenus.js";
+import { CATEGORIES } from "../utils/categories.js";
 
 export function createSelectedOptionTag(selectedItem, parentId) {
     // Création des éléments
@@ -15,12 +16,12 @@ export function createSelectedOptionTag(selectedItem, parentId) {
 
     // Identification de la catégorie à partir de l'Id de la div parent
     let category = '';
-    if (parentId.includes('ingredients')) {
-        category = 'ingredients';
-    } else if (parentId.includes('appliances')) {
-        category = 'appliances';
-    } else if (parentId.includes('ustensils')) {
-        category = 'ustensils';
+    if (parentId.includes(CATEGORIES.ingredients)) {
+        category = CATEGORIES.ingredients;
+    } else if (parentId.includes(CATEGORIES.appliances)) {
+        category = CATEGORIES.appliances;
+    } else if (parentId.includes(CATEGORIES.ustensils)) {
+        category = CATEGORIES.ustensils;
     } else {
         console.error("Le nom de la catégorie ne correspond à aucune existante");
         return;
@@ -38,8 +39,8 @@ export function createSelectedOptionTag(selectedItem, parentId) {
 }
 
 // Supprime l'option sélectionée lors du click sur le bouton delete, fais ensuite un update.
-function removeOptionTag(imgButton) {
-    imgButton.addEventListener("click", () => {
+async function removeOptionTag(imgButton) {
+    imgButton.addEventListener("click", async () => {
         const parentElement = imgButton.parentElement;
 
         console.log('parent: ', parentElement)
@@ -53,18 +54,22 @@ function removeOptionTag(imgButton) {
             return;
         }
 
-        const result = getAllOptionsTagsValues[categoryOfElement].some((element) => {
-            if (element.trim() === valueOfOptionTag.trim()) {
-                parentElement.remove();
-                updateCardsAndFilters();
-                return true;
-            }
-            return false;
-        });
+        const elements = getAllOptionsTagsValues[categoryOfElement];
 
-        if(!result) {
-            console.error("Impossible de supprimer: Cet élément n'est pas dans la liste");
+        for (const element of elements) {
+            if (element.trim() === valueOfOptionTag) {
+                parentElement.remove();
+
+                // Mise à jour des cards et filtres
+                const result = await updateCardsAndFilters();
+                if (result) {
+                    removeSelectedElementFromDropdownList();
+                }
+                return;
+            }
         }
+
+        console.error("Impossible de supprimer: Cet élément n'est pas dans la liste.");
     });
 }
 
