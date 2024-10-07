@@ -1,7 +1,7 @@
 import { setVisibilityOfDeleteSearchTextButton } from "../utils/searchInputsUtils.js";
 import { CATEGORIES } from '../utils/categories.js';
 
-export function opendropdrownMenus(dropdownId, dropdownMenuId) {
+export function openDropdrownMenus(dropdownId, dropdownMenuId) {
     const itemsDropdown = document.getElementById(dropdownId);
     const itemsMenu = document.getElementById(dropdownMenuId);
 
@@ -63,30 +63,67 @@ export function getAllSelectedValuesInDropdownFilters() {
     return arrayOfSelectedItems;
 }
 
-function searchInDropdown(dropdownMenu) {
-    const searchInput = dropdownMenu.getElementsByClassName("dropdown-input")[0];
-    const deleteBtn = dropdownMenu.getElementsByClassName('dropdown-delete-icon')[0];
 
+function searchInDropdown(dropdownMenu) {
+    const searchInput = dropdownMenu.querySelector(".dropdown-input");
+    const deleteButton = dropdownMenu.querySelector('.dropdown-delete-icon');
+    
     if (!searchInput) {
         console.error("La barre de recherche n'existe pas");
         return;
     }
 
-    searchInput.addEventListener('input', () => {
-        setVisibilityOfDeleteSearchTextButton(searchInput, deleteBtn);
+    searchInput.addEventListener('input', (event) => {
+        console.log("event: ", event.target.value);
+        if (!deleteButton) {
+            console.error("Le bouton de suppression n'existe pas");
+            return;
+        }
+        searchInDropdownList(dropdownMenu, event.target.value);
+        setVisibilityOfDeleteSearchTextButton(searchInput, deleteButton);
     });
 
     deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput);
 }
 
+function searchInDropdownList(dropdownMenu, searchInputValue) {
+    const dropdownItems = Array.from(dropdownMenu.querySelectorAll(".dropdown-options"));
+
+    if (!dropdownItems || dropdownItems.length === 0) {
+        console.error("La liste des éléments n'existe pas");
+        return;
+    }
+
+    console.log("items: ", searchInputValue);
+
+    if(searchInputValue.length <= 0) {
+        unhideAllElements(dropdownItems);
+        return;
+    }
+
+    dropdownItems.forEach((item) => {
+        const itemText = item.textContent.toLowerCase();
+        console.log("value: ", item);
+        if (itemText.includes(searchInputValue.toLowerCase().trim())) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Supprime le bouton de suppression
 function deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput) {
-    const deleteBtn = dropdownMenu.getElementsByClassName('dropdown-delete-icon')[0];
+    const deleteBtn = dropdownMenu.querySelector('.dropdown-delete-icon');
+    const dropdownItems = Array.from(dropdownMenu.querySelectorAll(".dropdown-options"));
 
     deleteBtn.addEventListener('click', async () => {
         deleteBtn.classList.add('invisible');
         searchInput.value = '';
+        unhideAllElements(dropdownItems);
     });
 }
+
 
 export function removeSelectedElementFromDropdownList() {
     const getAllSelectedValues = getAllSelectedValuesInDropdownFilters();
@@ -94,14 +131,14 @@ export function removeSelectedElementFromDropdownList() {
     try {
         Object.keys(CATEGORIES).forEach((category) => {
             const container = document.getElementById(`${category}-list`);
-    
+
             if (!container) {
                 console.error(`Le conteneur avec l'ID ${category}-list n'existe pas.`);
                 return;
             }
-    
+
             const options = Array.from(container.getElementsByClassName("dropdown-options"));
-    
+
             getAllSelectedValues[category].forEach((element) => {
                 options.forEach((option) => {
                     if (option.textContent === element) {
@@ -113,4 +150,11 @@ export function removeSelectedElementFromDropdownList() {
     } catch (error) {
         console.error('Erreur lors de la suppression du tag: ', error)
     }
+}
+
+// Affiche tous les éléments du menu dropdown
+function unhideAllElements(optionsList) {
+    optionsList.forEach((option) => {
+        option.style.display = 'block';
+    });
 }

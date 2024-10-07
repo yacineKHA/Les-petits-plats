@@ -1,6 +1,6 @@
 import { createRecipeCard } from "../components/createRecipeCard.js";
 import { addOptionsToDropdownMenus, fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
-import { opendropdrownMenus } from "../ui/dropdownMenus.js";
+import { openDropdrownMenus } from "../ui/dropdownMenus.js";
 import { deleteSearchInputValue, searchListener } from "../ui/searchBar.js";
 
 
@@ -62,8 +62,8 @@ async function init() {
     }
 }
 
-opendropdrownMenus("ingredients-dropdown", "ingredients-menu");
-opendropdrownMenus("appliances-dropdown", "appliances-menu");
-opendropdrownMenus("ustensils-dropdown", "ustensils-menu");
+openDropdrownMenus("ingredients-dropdown", "ingredients-menu");
+openDropdrownMenus("appliances-dropdown", "appliances-menu");
+openDropdrownMenus("ustensils-dropdown", "ustensils-menu");
 
 init();
