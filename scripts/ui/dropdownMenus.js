@@ -59,7 +59,6 @@ export function getAllSelectedValuesInDropdownFilters() {
             console.error(`L'élément ne possède pas de data-category`);
         }
     });
-
     return arrayOfSelectedItems;
 }
 
@@ -74,7 +73,6 @@ function searchInDropdown(dropdownMenu) {
     }
 
     searchInput.addEventListener('input', (event) => {
-        console.log("event: ", event.target.value);
         if (!deleteButton) {
             console.error("Le bouton de suppression n'existe pas");
             return;
@@ -94,8 +92,6 @@ function searchInDropdownList(dropdownMenu, searchInputValue) {
         return;
     }
 
-    console.log("items: ", searchInputValue);
-
     if(searchInputValue.length <= 0) {
         unhideAllElements(dropdownItems);
         return;
@@ -103,7 +99,6 @@ function searchInDropdownList(dropdownMenu, searchInputValue) {
 
     dropdownItems.forEach((item) => {
         const itemText = item.textContent.toLowerCase();
-        console.log("value: ", item);
         if (itemText.includes(searchInputValue.toLowerCase().trim())) {
             item.style.display = 'block';
         } else {
@@ -115,11 +110,12 @@ function searchInDropdownList(dropdownMenu, searchInputValue) {
 // Supprime le bouton de suppression
 function deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput) {
     const deleteBtn = dropdownMenu.querySelector('.dropdown-delete-icon');
-    const dropdownItems = Array.from(dropdownMenu.querySelectorAll(".dropdown-options"));
 
     deleteBtn.addEventListener('click', async () => {
         deleteBtn.classList.add('invisible');
         searchInput.value = '';
+
+        const dropdownItems = Array.from(dropdownMenu.querySelectorAll(".dropdown-options"));
         unhideAllElements(dropdownItems);
     });
 }
@@ -155,6 +151,7 @@ export function removeSelectedElementFromDropdownList() {
 // Affiche tous les éléments du menu dropdown
 function unhideAllElements(optionsList) {
     optionsList.forEach((option) => {
+        console.log("option: ", option.textContent)
         option.style.display = 'block';
     });
 }
