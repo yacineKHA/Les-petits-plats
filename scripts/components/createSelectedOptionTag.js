@@ -14,18 +14,7 @@ export function createSelectedOptionTag(selectedItem, parentId) {
 
     img.src = "./assets/icons/delete-black.svg";
 
-    // Identification de la catégorie à partir de l'Id de la div parent
-    let category = '';
-    if (parentId.includes(CATEGORIES.ingredients)) {
-        category = CATEGORIES.ingredients;
-    } else if (parentId.includes(CATEGORIES.appliances)) {
-        category = CATEGORIES.appliances;
-    } else if (parentId.includes(CATEGORIES.ustensils)) {
-        category = CATEGORIES.ustensils;
-    } else {
-        console.error("Le nom de la catégorie ne correspond à aucune existante");
-        return;
-    }
+    const category = selectCategory(parentId);
 
     //Ajout de la catégorie à la div
     div.setAttribute("data-category", category);
@@ -38,12 +27,24 @@ export function createSelectedOptionTag(selectedItem, parentId) {
     return div;
 }
 
-// Supprime l'option sélectionée lors du click sur le bouton delete, fais ensuite un update.
-async function removeOptionTag(imgButton) {
+// Identification de la catégorie à partir de l'Id de la div parent
+function selectCategory(parentId) {
+     if (parentId.includes(CATEGORIES.ingredients)) {
+         return CATEGORIES.ingredients;
+     } else if (parentId.includes(CATEGORIES.appliances)) {
+         return CATEGORIES.appliances;
+     } else if (parentId.includes(CATEGORIES.ustensils)) {
+         return CATEGORIES.ustensils;
+     } else {
+         console.error("Le nom de la catégorie ne correspond à aucune existante");
+         return null;
+     }
+}
+
+// Supprime l'option sélectionée et le supprime de la liste lors du click
+function removeOptionTag(imgButton) {
     imgButton.addEventListener("click", async () => {
         const parentElement = imgButton.parentElement;
-
-        console.log('parent: ', parentElement)
         const valueOfOptionTag = parentElement.textContent;
         const categoryOfElement = parentElement.getAttribute("data-category");
 
@@ -53,23 +54,30 @@ async function removeOptionTag(imgButton) {
             console.error("La catégorie n'existe pas dans la liste des options.");
             return;
         }
-
         const elements = getAllOptionsTagsValues[categoryOfElement];
 
-        for (const element of elements) {
-            if (element.trim() === valueOfOptionTag) {
-                parentElement.remove();
-
-                // Mise à jour des cards et filtres
-                const result = await updateCardsAndFilters();
-                if (result) {
-                    removeSelectedElementFromDropdownList();
-                }
-                return;
-            }
+        const isRemoved = await removeElementAndUpdateCards(parentElement, elements, valueOfOptionTag);
+        if (!isRemoved) {
+            console.error("Impossible de supprimer: Cet élément n'est pas dans la liste.");
+            return;        
         }
-
-        console.error("Impossible de supprimer: Cet élément n'est pas dans la liste.");
     });
+}
+
+// Supprime l'option sélectionée, fais ensuite un update.
+async function removeElementAndUpdateCards(parentElement, elements, valueOfOptionTag) {
+    for (const element of elements) {
+      if (element.trim() === valueOfOptionTag) {
+        parentElement.remove();
+  
+        // Mise à jour des cards et filtres
+        const result = await updateCardsAndFilters();
+        if (result) {
+          removeSelectedElementFromDropdownList();
+          return true;
+        }
+      }
+    }
+    return false;
 }
 

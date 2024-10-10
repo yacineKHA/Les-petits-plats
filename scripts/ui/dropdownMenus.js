@@ -1,5 +1,6 @@
 import { setVisibilityOfDeleteSearchTextButton } from "../utils/searchInputsUtils.js";
 import { CATEGORIES } from '../utils/categories.js';
+import { unhideAllElements, deleteButtonOnSearchInputInDropdown } from "../utils/dropdownMenuUtils.js";
 
 export function openDropdrownMenus(dropdownId, dropdownMenuId) {
     const itemsDropdown = document.getElementById(dropdownId);
@@ -39,6 +40,12 @@ export function getAllSelectedValuesInDropdownFilters() {
         ustensils: []
     };
 
+    addItemsToCategories(dropdownsSelectedItemsArray, arrayOfSelectedItems);
+
+    return arrayOfSelectedItems;
+}
+
+function addItemsToCategories(dropdownsSelectedItemsArray, arrayOfSelectedItems) {
     dropdownsSelectedItemsArray.forEach(element => {
         // Récup de la catégorie
         const category = element.getAttribute("data-category");
@@ -59,7 +66,6 @@ export function getAllSelectedValuesInDropdownFilters() {
             console.error(`L'élément ne possède pas de data-category`);
         }
     });
-    return arrayOfSelectedItems;
 }
 
 
@@ -107,19 +113,6 @@ function searchInDropdownList(dropdownMenu, searchInputValue) {
     });
 }
 
-// Supprime le bouton de suppression
-function deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput) {
-    const deleteBtn = dropdownMenu.querySelector('.dropdown-delete-icon');
-
-    deleteBtn.addEventListener('click', async () => {
-        deleteBtn.classList.add('invisible');
-        searchInput.value = '';
-
-        const dropdownItems = Array.from(dropdownMenu.querySelectorAll(".dropdown-options"));
-        unhideAllElements(dropdownItems);
-    });
-}
-
 
 export function removeSelectedElementFromDropdownList() {
     const getAllSelectedValues = getAllSelectedValuesInDropdownFilters();
@@ -146,12 +139,4 @@ export function removeSelectedElementFromDropdownList() {
     } catch (error) {
         console.error('Erreur lors de la suppression du tag: ', error)
     }
-}
-
-// Affiche tous les éléments du menu dropdown
-function unhideAllElements(optionsList) {
-    optionsList.forEach((option) => {
-        console.log("option: ", option.textContent)
-        option.style.display = 'block';
-    });
 }

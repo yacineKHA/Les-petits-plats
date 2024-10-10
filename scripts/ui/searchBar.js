@@ -17,11 +17,9 @@ export async function searchByRecipesAndIngredients(input, ...cardsAndDropdownsF
     try {
         // Conditiion si recherche textuelle
         if (searchValue && searchValue.length >= 3) {
-            const deleteBtn = document.getElementById('btn-delete-search-text');
-            deleteBtn.classList.remove('invisible');
-
+            removeDeleteButton();
             recipes = await fetchRecipes(searchValue, getAllSelectedValuesInDropdownFilters());
-            
+
         } else {
             recipes = await fetchRecipes(null, getAllSelectedValuesInDropdownFilters());
         }
@@ -30,24 +28,35 @@ export async function searchByRecipesAndIngredients(input, ...cardsAndDropdownsF
         if (recipes) {
             //Suppression des anciennes données
             deletePreviousDataInCardsAndDropdownMenus();
-
-            // Mise à jour des cards et dropdowns (promise.all pour etre sûr quelles aient terminées
-            //avant de passer à la suite)
-            await Promise.all(
-                cardsAndDropdownsFunctions.map((item) => {
-                    item(recipes);
-                })
-            );
+            
+            await updateUI(recipes, cardsAndDropdownsFunctions);
 
             return recipes;
         }
-
-        
     } catch (error) {
         console.error('Erreur lors de la recherche des recettes : ', error);
     }
 }
 
+function removeDeleteButton() {
+    const deleteBtn = document.getElementById('btn-delete-search-text');
+    deleteBtn.classList.remove('invisible');
+}
+
+async function updateUI(recipes, cardsAndDropdownsFunctions) {
+    if (recipes) {
+        //Suppression des anciennes données
+        deletePreviousDataInCardsAndDropdownMenus();
+
+        // Mise à jour des cards et dropdowns (promise.all pour etre sûr quelles aient terminées
+        // avant de passer à la suite)
+        await Promise.all(
+            cardsAndDropdownsFunctions.map((item) => {
+                item(recipes);
+            })
+        );
+    }
+}
 
 export function deleteSearchInputValue(...cardsAndDropdownsFunctions) {
     const deleteBtn = document.getElementById('btn-delete-search-text');

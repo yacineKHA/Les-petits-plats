@@ -6,3 +6,4 @@ export function createOptionElementForDropdownList(content, selectedList) {
 
     return div;
 }
+

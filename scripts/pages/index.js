@@ -1,7 +1,8 @@
 import { createRecipeCard } from "../components/createRecipeCard.js";
-import { addOptionsToDropdownMenus, fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
+import { fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
 import { openDropdrownMenus } from "../ui/dropdownMenus.js";
 import { deleteSearchInputValue, searchListener } from "../ui/searchBar.js";
+import { addOptionsToDropdownMenus } from "../utils/dropdownMenuUtils.js";
 
 
 export async function initializeFiltersInDropdownMenus(recipes) {
@@ -18,7 +19,6 @@ export async function initializeFiltersInDropdownMenus(recipes) {
         addOptionsToDropdownMenus(ingredients, document.getElementById('ingredients-list'), "ingredients-container");
         addOptionsToDropdownMenus(appliances, document.getElementById('appliances-list'), "appliances-container");
         addOptionsToDropdownMenus(ustensils, document.getElementById('ustensils-list'), "ustensils-container");
-
 
     } catch (error) {
         console.error('Erreur lors de l\'initialisation des données des filtres: ', error);

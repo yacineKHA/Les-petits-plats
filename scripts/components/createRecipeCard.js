@@ -1,33 +1,36 @@
 import { Recipe } from '../../models/Recipe.js';
 import Ingredient from '../../models/Ingredient.js';
 
-export function createRecipeCard(data) {
-
-    const recipe = new Recipe(data.id, data.name, data.servings, data.ingredients, data.time, data.description, data.appliance, data.ustensils, data.image);
-
-    // Création de la card
+// Crée le conteneur de base pour la card de la recette
+function createCardElement() {
     const card = document.createElement('div');
     card.classList.add("card-container");
+    return card;
+}
 
-    // Conteneur de l'image
+// Crée l'image de la recette
+function createImageElement(recipe) {
     const imageContainer = document.createElement('div');
     imageContainer.classList.add('card-image-container');
 
-    // Création de l'image
     const img = document.createElement('img');
     img.classList.add('card-image');
     img.src = `/assets/images/${recipe.image}`;
 
-    // Création du body
-    const cardBody = document.createElement('div');
-    cardBody.classList.add('card-body');
+    imageContainer.appendChild(img);
+    return imageContainer;
+}
 
-    // Création du titre
+// Crée le titre de la recette
+function createTitleElement(recipe) {
     const title = document.createElement('h3');
     title.textContent = recipe.name;
     title.classList.add('card-title');
+    return title;
+}
 
-    // Partie recette
+// Crée la description de la recette
+function createDescriptionElement(recipe) {
     const recipeContainer = document.createElement('div');
     recipeContainer.classList.add('card-recipe-container');
 
@@ -39,22 +42,25 @@ export function createRecipeCard(data) {
     recipeDescription.classList.add('card-recipe-description');
     recipeDescription.textContent = recipe.description;
 
-    // Partie ingrédients
+    recipeContainer.appendChild(recipeTitle);
+    recipeContainer.appendChild(recipeDescription);
+    return recipeContainer;
+}
+
+// Crée l'élément des ingrédients de la recette
+function createIngredientsElement(recipe) {
     const recipeIngredientsContainer = document.createElement('div');
     recipeIngredientsContainer.classList.add('card-recipe-ingredients-container');
 
     const recipeIngredientsTitle = document.createElement('h4');
     recipeIngredientsTitle.classList.add('card-recipe-ingredients-title', 'card-under-title');
-
     recipeIngredientsTitle.textContent = "Ingrédients";
 
     const ingredientsListContainer = document.createElement("div");
     ingredientsListContainer.classList.add("card-recipe-ingredients-list-container");
 
-    const ingredientsList = recipe.ingredients;
-
-    
-    ingredientsList.forEach(element => {
+    // Ajoute les ingrédients à la liste
+    recipe.ingredients.forEach(element => {
         const ingredient = new Ingredient(element.ingredient, element.quantity, element?.unit);
         const ingredientContainer = document.createElement("div");
 
@@ -67,22 +73,35 @@ export function createRecipeCard(data) {
             ? (ingredient.unit ? `${ingredient.quantity} ${ingredient.unit}` : `${ingredient.quantity}`)
             : "-";
 
-        ingredientContainer.append(ingredientName, ingredientQuantity);
+        ingredientContainer.appendChild(ingredientName);
+        ingredientContainer.appendChild(ingredientQuantity);
         ingredientsListContainer.appendChild(ingredientContainer);
     });
 
-    recipeIngredientsContainer.append(recipeIngredientsTitle, ingredientsListContainer);
+    recipeIngredientsContainer.appendChild(recipeIngredientsTitle);
+    recipeIngredientsContainer.appendChild(ingredientsListContainer);
+    return recipeIngredientsContainer;
+}
 
-    recipeContainer.append(recipeTitle, recipeDescription);
+// Crée la card de recette
+export function createRecipeCard(data) {
+    const recipe = new Recipe(data.id, data.name, data.servings, data.ingredients, data.time, data.description, data.appliance, data.ustensils, data.image);
 
-    // Ajout image au container
-    imageContainer.appendChild(img);
+    const card = createCardElement();
+    const imageElement = createImageElement(recipe);
+    const titleElement = createTitleElement(recipe);
+    const descriptionElement = createDescriptionElement(recipe);
+    const ingredientsElement = createIngredientsElement(recipe);
 
-    // Ajout éléments au body
-    cardBody.append(title, recipeContainer, recipeIngredientsContainer);
+    const cardBody = document.createElement('div');
+    cardBody.classList.add('card-body');
 
-    // Ajout éléments au conteneur de la card
-    card.append(imageContainer, cardBody);
+    cardBody.appendChild(titleElement);
+    cardBody.appendChild(descriptionElement);
+    cardBody.appendChild(ingredientsElement);
+
+    card.appendChild(imageElement);
+    card.appendChild(cardBody);
 
     return card;
 }

@@ -1,8 +1,6 @@
-import { createOptionElementForDropdownList } from "../components/createOptionElementForDropdownList.js";
-import { createSelectedOptionTag } from "../components/createSelectedOptionTag.js";
 import { displayCards, initializeFiltersInDropdownMenus } from "../pages/index.js";
-import { removeSelectedElementFromDropdownList } from "../ui/dropdownMenus.js";
 import { searchByRecipesAndIngredients } from "../ui/searchBar.js";
+import { filterByAppliance, filterByIngredients, filterByUstensils } from "../utils/dropdownMenuUtils.js";
 
 export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
     try {
@@ -66,31 +64,6 @@ export function filterRecipesWithFilters(recipes, selectedFilters, searchValue =
     return filteredRecipes;
 }
 
-function filterByIngredients(ingredients, matchesIngredients, recipe) {
-    matchesIngredients = ingredients.every(selectedIngredient =>
-        recipe.ingredients.some(ingredient =>
-            ingredient.ingredient.toLowerCase() === selectedIngredient.toLowerCase()
-        )
-    );
-    return matchesIngredients;
-}
-
-function filterByAppliance(appliances, matchesAppliance, recipe) {
-    matchesAppliance = appliances.every(selectedAppliance =>
-        selectedAppliance.toLowerCase() === recipe.appliance.toLowerCase()
-    );
-    return matchesAppliance;
-}
-
-function filterByUstensils(ustensils, matchesUstensils, recipe) {
-    matchesUstensils = ustensils.every(selectedUstensil =>
-        recipe.ustensils.some(ustensil =>
-            ustensil.toLowerCase() === selectedUstensil.toLowerCase()
-        )
-    );
-    return matchesUstensils;
-}
-
 export function getFilteredUniqueItems(recipes, elementsToFilter, element = null, array = false) {
     const itemsSet = new Set();
 
@@ -107,48 +80,6 @@ export function getFilteredUniqueItems(recipes, elementsToFilter, element = null
     }
 
     return itemsSet; // Retourne les éléments uniques grâce à la méthode Set();
-}
-
-export function addOptionsToDropdownMenus(itemsSet, selectedList, dropdownId) {
-    itemsSet.forEach(item => {
-        const option = createOptionElementForDropdownList(item, selectedList);
-        handleClickOnSelectedOption(option, dropdownId);
-    });
-}
-
-export function handleClickOnSelectedOption(option, dropdownId) {
-    option.addEventListener("click", async () => {
-        try {
-            showSelectedOption(option, dropdownId);
-            const response = await updateCardsAndFilters();
-            if(response) {
-                removeSelectedElementFromDropdownList();
-            }
-        } catch (error) {
-            console.error("Erreur lors du click sur l'option sélectionnée: ", error);
-        }
-    });
-}
-
-function closeDropDownMenu(dropdownContainer) {
-    const menu = dropdownContainer.querySelector(".dropdown-menus");
-    menu.classList.add("hidden");
-}
-
-export function showSelectedOption(option, dropdownParentId) {
-    try {
-        // Récupère le container pour y ajouter l'élément
-        const dropdownContainer = document.getElementById(dropdownParentId);
-
-        // Création d'un item
-        const newSelectedItem = createSelectedOptionTag(option.textContent, dropdownParentId);
-
-        dropdownContainer.appendChild(newSelectedItem);
-        closeDropDownMenu(dropdownContainer);
-
-    } catch (error) {
-        console.error("Erreur lors de l'affichage de l'option de filtre sélectionnée: ", error);
-    }
 }
 
 // Mise à jour des filtres et cards selon filtres et recherches
