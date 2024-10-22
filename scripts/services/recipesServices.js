@@ -25,7 +25,7 @@ export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
     }
 }
 
-//Version 1
+//version 2
 /**
 * Filtre les recettes en fonction de la valeur de recherche saisie par l'utilisateur.
 * @param {Array} recipes - Liste des recettes à filtrer.
@@ -34,15 +34,24 @@ export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
 */
 export function searchRecipes(recipes, searchValue) {
     const lowerCaseSearchValue = searchValue.toLowerCase();
-    const filteredRecipes = recipes.filter(recipe => {
-        return (
-            recipe.name.toLowerCase().includes(lowerCaseSearchValue) ||
-            recipe.description.toLowerCase().includes(lowerCaseSearchValue) ||
+    const filteredRecipes = [];
 
-            // Some => pour verifier si au moins un élément du tableau (ingredients) correspond à la recherche (s'arrête dans ce cas)
-            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(lowerCaseSearchValue))
-        );
-    });
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
+        if (recipe.name.toLowerCase().includes(lowerCaseSearchValue) ||
+            recipe.description.toLowerCase().includes(lowerCaseSearchValue)) {
+            filteredRecipes.push(recipe);
+            continue;
+        }
+
+        for (let j = 0; j < recipe.ingredients.length; j++) {
+            if (recipe.ingredients[j].ingredient.toLowerCase().includes(lowerCaseSearchValue)) {
+                filteredRecipes.push(recipe);
+                break;
+            }
+        }
+    }
+
     return filteredRecipes;
 }
 
