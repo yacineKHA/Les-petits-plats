@@ -1,3 +1,6 @@
+/**
+ * Supprime les anciennes données des cards et des dropdowns
+ */
 export function deletePreviousDataInCardsAndDropdownMenus() {
     const cardsContainer = document.getElementsByClassName('cards-container')[0];
     cardsContainer.innerHTML = '';

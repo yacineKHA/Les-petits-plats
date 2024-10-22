@@ -2,6 +2,12 @@ import { setVisibilityOfDeleteSearchTextButton } from "../utils/searchInputsUtil
 import { CATEGORIES } from '../utils/categories.js';
 import { unhideAllElements, deleteButtonOnSearchInputInDropdown } from "../utils/dropdownMenuUtils.js";
 
+/**
+ * Ouvre/ferme le dropdown menu
+ * 
+ * @param {string} dropdownId - L'ID du dropdown
+ * @param {string} dropdownMenuId - L'ID du menu déroulant
+ */
 export function openDropdrownMenus(dropdownId, dropdownMenuId) {
     const itemsDropdown = document.getElementById(dropdownId);
     const itemsMenu = document.getElementById(dropdownMenuId);
@@ -25,6 +31,12 @@ export function openDropdrownMenus(dropdownId, dropdownMenuId) {
     }
 }
 
+
+/**
+ * Renvoie un objet contenant les éléments de filtre sélectionnés dans les dropdowns
+ * 
+ * @returns {Object} - L'objet contenant les catégories (ingredients, appliances, ustensils)
+ */
 export function getAllSelectedValuesInDropdownFilters() {
     const dropdownsSelectedItem = document.getElementsByClassName("dropdown-selected-item");
 
@@ -45,6 +57,13 @@ export function getAllSelectedValuesInDropdownFilters() {
     return arrayOfSelectedItems;
 }
 
+/**
+ * Ajoute les éléments de la liste de dropdownsSelectedItemsArray dans les catégories correspondantes
+ *
+ * @param {array} dropdownsSelectedItemsArray - La liste des éléments de la classe dropdown-selected-item
+ * @param {object} arrayOfSelectedItems - L'objet contenant les catégories (ingredients, appliances, ustensils)
+ *                                        et les éléments correspondants
+ */
 function addItemsToCategories(dropdownsSelectedItemsArray, arrayOfSelectedItems) {
     dropdownsSelectedItemsArray.forEach(element => {
         // Récup de la catégorie
@@ -60,7 +79,7 @@ function addItemsToCategories(dropdownsSelectedItemsArray, arrayOfSelectedItems)
             } else if (category === CATEGORIES.ustensils) {
                 arrayOfSelectedItems.ustensils.push(text);
             } else {
-                console.error(`La data-category de l'élément ne correspond à aucune catégorie attendue`)
+                console.error(`La data-category de l'élément ne correspond à aucune catégorie attendue`);
             }
         } else {
             console.error(`L'élément ne possède pas de data-category`);
@@ -69,10 +88,18 @@ function addItemsToCategories(dropdownsSelectedItemsArray, arrayOfSelectedItems)
 }
 
 
+/**
+ * Initialise la barre de recherche pour un menu déroulant.
+ * Met en place un listener sur l'input pour filtrer les éléments du menu en fonction de la valeur saisie.
+ * Met en place un listener sur le clic du bouton de suppression pour supprimer le texte de recherche saisie.
+ * Affiche ou cache le bouton de suppression en fonction de si le texte de recherche est vide ou non.
+ *
+ * @param {HTMLElement} dropdownMenu - Le menu déroulant contenant les éléments de recherche
+ */
 function searchInDropdown(dropdownMenu) {
     const searchInput = dropdownMenu.querySelector(".dropdown-input");
     const deleteButton = dropdownMenu.querySelector('.dropdown-delete-icon');
-    
+
     if (!searchInput) {
         console.error("La barre de recherche n'existe pas");
         return;
@@ -90,6 +117,13 @@ function searchInDropdown(dropdownMenu) {
     deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput);
 }
 
+/**
+ * Recherche dans la liste des éléments du dropdownMenu ceux qui contiennent
+ * la valeur de recherche saisie par l'utilisateur.
+ *
+ * @param {HTMLElement} dropdownMenu - Le menu déroulant contenant les éléments 
+ * @param {string} searchInputValue - Le texte saisie par l'utilisateur dans la barre de recherche
+ */
 function searchInDropdownList(dropdownMenu, searchInputValue) {
     const dropdownItems = Array.from(dropdownMenu.querySelectorAll(".dropdown-options"));
 
@@ -98,7 +132,7 @@ function searchInDropdownList(dropdownMenu, searchInputValue) {
         return;
     }
 
-    if(searchInputValue.length <= 0) {
+    if (searchInputValue.length <= 0) {
         unhideAllElements(dropdownItems);
         return;
     }

@@ -1,7 +1,11 @@
 import { Recipe } from '../../models/Recipe.js';
 import Ingredient from '../../models/Ingredient.js';
 
-// Crée le conteneur de base pour la card de la recette
+
+/**
+ * Crée le conteneur de base pour la card de la recette.
+ * @returns {HTMLElement} Conteneur de la card.
+ */
 function createCardElement() {
     const card = document.createElement('div');
     card.classList.add("card-container");
@@ -83,7 +87,12 @@ function createIngredientsElement(recipe) {
     return recipeIngredientsContainer;
 }
 
-// Crée la card de recette
+
+/**
+* Crée la card de la recette contenant la photo, le nom, la description et les ingrédients.
+* @param {Object} data - Données de la recette.
+* @returns {HTMLElement} Le conteneur HTML de la card.
+*/
 export function createRecipeCard(data) {
     const recipe = new Recipe(data.id, data.name, data.servings, data.ingredients, data.time, data.description, data.appliance, data.ustensils, data.image);
 

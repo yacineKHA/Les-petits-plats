@@ -2,34 +2,89 @@ import { displayCards, initializeFiltersInDropdownMenus } from "../pages/index.j
 import { searchByRecipesAndIngredients } from "../ui/searchBar.js";
 import { filterByAppliance, filterByIngredients, filterByUstensils } from "../utils/dropdownMenuUtils.js";
 
+/**
+ * Récupère les recettes du fichier recipes.json et filtre éventuellement ces recettes
+ * en fonction des filtres de recherche et des éléments de filtre sélectionnés.
+ * @param {string} [searchValue] - Valeur de recherche saisie par l'utilisateur.
+ * @param {Object} [selectedFilters] - Filtres de recherche sélectionnés par l'utilisateur.
+ * @returns {Promise<Array>} - La liste des recettes filtrées.
+ */
 export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
     try {
         const response = await fetch('/data/recipes.json');
+        if (!response.ok) {
+            console.error(`Erreur HTTP Status: ${response.status}`);
+        }
         const recipes = await response.json();
 
         return filterRecipesWithFilters(recipes, selectedFilters, searchValue);
 
     } catch (error) {
         console.error('Erreur lors de la récupération des recettes: ', error);
+        return [];
     }
 }
 
-export function searchRecipes(recipes, searchValue) {
+//Version 1
 
+/**
+* Filtre les recettes en fonction de la valeur de recherche saisie par l'utilisateur.
+* @param {Array} recipes - Liste des recettes à filtrer.
+* @param {string} searchValue - Valeur de recherche saisie par l'utilisateur.
+* @returns {Array} - Liste des recettes filtrées.
+*/
+export function searchRecipes(recipes, searchValue) {
     const lowerCaseSearchValue = searchValue.toLowerCase();
     const filteredRecipes = recipes.filter(recipe => {
         return (
             recipe.name.toLowerCase().includes(lowerCaseSearchValue) ||
             recipe.description.toLowerCase().includes(lowerCaseSearchValue) ||
 
-            // Some => pour verifier si au moins un élément du tableau (ingredients) correspond à la recherche
+            // Some => pour verifier si au moins un élément du tableau (ingredients) correspond à la recherche (s'arrête dans ce cas)
             recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(lowerCaseSearchValue))
         );
     });
+    return filteredRecipes;
+}
+
+//version 2
+
+/**
+* Filtre les recettes en fonction de la valeur de recherche saisie par l'utilisateur.
+* @param {Array} recipes - Liste des recettes à filtrer.
+* @param {string} searchValue - Valeur de recherche saisie par l'utilisateur.
+* @returns {Array} - Liste des recettes filtrées.
+*/
+export function searchRecipesWithLoops(recipes, searchValue) {
+    const lowerCaseSearchValue = searchValue.toLowerCase();
+    const filteredRecipes = [];
+
+    for (let i = 0; i < recipes.length; i++) {
+        const recipe = recipes[i];
+        if (recipe.name.toLowerCase().includes(lowerCaseSearchValue) ||
+            recipe.description.toLowerCase().includes(lowerCaseSearchValue)) {
+            filteredRecipes.push(recipe);
+            continue;
+        }
+
+        for (let j = 0; j < recipe.ingredients.length; j++) {
+            if (recipe.ingredients[j].ingredient.toLowerCase().includes(lowerCaseSearchValue)) {
+                filteredRecipes.push(recipe);
+                break;
+            }
+        }
+    }
 
     return filteredRecipes;
 }
 
+/**
+ * Filtre les recettes en fonction des filtres de recherche et des éléments de filtre sélectionnés.
+ * @param {Array} recipes - Liste des recettes à filtrer.
+ * @param {Object} selectedFilters - Filtres de recherche sélectionnés.
+ * @param {string} searchValue - Valeur de recherche saisie par l'utilisateur (optionnel).
+ * @returns {Array} - Liste des recettes filtrées.
+ */
 export function filterRecipesWithFilters(recipes, selectedFilters, searchValue = null) {
     const { ingredients, appliances, ustensils } = selectedFilters;
 
@@ -64,6 +119,18 @@ export function filterRecipesWithFilters(recipes, selectedFilters, searchValue =
     return filteredRecipes;
 }
 
+/**
+ * Renvoie un Set contenant les éléments uniques du tableau de recettes
+ * filtrés en fonction de "elementsToFilter"
+ * Si "array" est à true, on considère que "elementsToFilter" est un tableau
+ * d'éléments et qu'il faut extraire les éléments de ce tableau.
+ * Si "element" est fourni, on extrait la propriété correspondante de chaque élément.
+ * @param {array} recipes - Tableau de recettes
+ * @param {string} elementsToFilter - Eléments à filtrer
+ * @param {string} element - Nom de la propriété à extraire (si array est à true)
+ * @param {boolean} array - True si elementsToFilter est un tableau
+ * @returns {Set} - Ensemble des éléments uniques
+ */
 export function getFilteredUniqueItems(recipes, elementsToFilter, element = null, array = false) {
     const itemsSet = new Set();
 
@@ -82,7 +149,12 @@ export function getFilteredUniqueItems(recipes, elementsToFilter, element = null
     return itemsSet; // Retourne les éléments uniques grâce à la méthode Set();
 }
 
-// Mise à jour des filtres et cards selon filtres et recherches
+
+/**
+ * Met à jour les cards et les filtres en fonction de la valeur de recherche saisie
+ * par l'utilisateur dans le champ de recherche.
+ * @returns {Promise<Boolean>} - Renvoie true si la mise à jour a réussie sinon false
+ */
 export async function updateCardsAndFilters() {
     const input = document.getElementById('searchbar-input');
 

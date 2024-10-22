@@ -3,6 +3,14 @@ import { createSelectedOptionTag } from "../components/createSelectedOptionTag.j
 import { updateCardsAndFilters } from "../services/recipesServices.js";
 import { removeSelectedElementFromDropdownList } from "../ui/dropdownMenus.js";
 
+/**
+ * Ajoute les éléments du Set itemsSet à la liste des options du dropdown menu
+ * dont l'ID est dropdownId.
+ * 
+ * @param {Set<string>} itemsSet - Ensemble des éléments à ajouter
+ * @param {HTMLElement} selectedList - Liste des éléments de la catégorie
+ * @param {string} dropdownId - L'ID du dropdown menu
+ */
 export function addOptionsToDropdownMenus(itemsSet, selectedList, dropdownId) {
     itemsSet.forEach(item => {
         const option = createOptionElementForDropdownList(item, selectedList);
@@ -10,18 +18,30 @@ export function addOptionsToDropdownMenus(itemsSet, selectedList, dropdownId) {
     });
 }
 
-
+/**
+ * Ferme le menu déroulant du dropdown
+ * 
+ * @param {HTMLElement} dropdownContainer - Conteneur du menu déroulant
+ */
 export function closeDropDownMenu(dropdownContainer) {
     const menu = dropdownContainer.querySelector(".dropdown-menus");
     menu.classList.add("hidden");
 }
 
+/**
+ * Gestion du click sur les options du dropdown menu. Lorsque celui-ci est cliqué,
+ * il s'ajoute à la liste des filtres et met à jour les
+ * cards et les filtres en appelant la fonction updateCardsAndFilters.
+ * 
+ * @param {HTMLElement} option - Option cliquée
+ * @param {string} dropdownId - L'ID du conteneur du menu déroulant
+ */
 export function handleClickOnSelectedOption(option, dropdownId) {
     option.addEventListener("click", async () => {
         try {
             showSelectedOption(option, dropdownId);
             const response = await updateCardsAndFilters();
-            if(response) {
+            if (response) {
                 removeSelectedElementFromDropdownList();
             }
         } catch (error) {
@@ -30,6 +50,13 @@ export function handleClickOnSelectedOption(option, dropdownId) {
     });
 }
 
+/**
+ * Ajoute le tag correspondant à l'option cliquée dans la liste des filtres
+ * et ferme le dropdown.
+ * 
+ * @param {HTMLElement} option - L'élément HTML de l'option cliquée
+ * @param {string} dropdownParentId - L'ID du conteneur du dropdown
+ */
 export function showSelectedOption(option, dropdownParentId) {
     try {
         // Récupère le container pour y ajouter l'élément
@@ -46,7 +73,14 @@ export function showSelectedOption(option, dropdownParentId) {
     }
 }
 
-// Supprime le bouton de suppression
+/**
+ * Gestion du bouton de suppression du texte de recherche dans le dropdownMenu.
+ * Si cliqué, le bouton est caché et le champ de recherche effacé
+ * et la liste de tous les éléments du dropdownMenu est réaffiché.
+ * 
+ * @param {HTMLElement} dropdownMenu - Le menu dropdown qui contient le bouton de suppression et le champ de recherche
+ * @param {HTMLElement} searchInput - L'input de recherche
+ */
 export function deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput) {
     const deleteBtn = dropdownMenu.querySelector('.dropdown-delete-icon');
 
@@ -59,12 +93,17 @@ export function deleteButtonOnSearchInputInDropdown(dropdownMenu, searchInput) {
     });
 }
 
-// Affiche tous les éléments du menu dropdown
+/**
+ * Affiche tous les éléments du menu dropdown.
+ * 
+ * @param  optionsList - Liste des éléments du menu dropdown
+ */
 export function unhideAllElements(optionsList) {
     optionsList.forEach((option) => {
         option.style.display = 'block';
     });
 }
+
 
 export function filterByIngredients(ingredients, matchesIngredients, recipe) {
     matchesIngredients = ingredients.every(selectedIngredient =>
@@ -74,6 +113,7 @@ export function filterByIngredients(ingredients, matchesIngredients, recipe) {
     );
     return matchesIngredients;
 }
+
 
 export function filterByAppliance(appliances, matchesAppliance, recipe) {
     matchesAppliance = appliances.every(selectedAppliance =>

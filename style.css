@@ -28,25 +28,12 @@
     @apply flex flex-col w-full p-8 gap-5;
 }
 
-.card-recipe-container {
- 
-}
-
-
 .card-recipe-description {
     @apply line-clamp-4;
 }
 
-.card-recipe-ingredients-container{
-    
-}
-
 .card-recipe-ingredients-list-container {
     @apply grid grid-cols-2 gap-4
-}
-
-.card-recipe-ingredients-title {
-    
 }
 
 .card-recipe-ingredients-quantity {
