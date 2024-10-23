@@ -41,13 +41,12 @@ export function searchRecipes(recipes, searchValue) {
         if (recipe.name.toLowerCase().includes(lowerCaseSearchValue) ||
             recipe.description.toLowerCase().includes(lowerCaseSearchValue)) {
             filteredRecipes.push(recipe);
-            continue;
-        }
-
-        for (let j = 0; j < recipe.ingredients.length; j++) {
-            if (recipe.ingredients[j].ingredient.toLowerCase().includes(lowerCaseSearchValue)) {
-                filteredRecipes.push(recipe);
-                break;
+        } else {
+            for (let j = 0; j < recipe.ingredients.length; j++) {
+                if (recipe.ingredients[j].ingredient.toLowerCase().includes(lowerCaseSearchValue)) {
+                    filteredRecipes.push(recipe);
+                    break;
+                }
             }
         }
     }
@@ -105,13 +104,13 @@ export function filterRecipesWithFilters(recipes, selectedFilters, searchValue =
  * @param {array} recipes - Tableau de recettes
  * @param {string} elementsToFilter - Eléments à filtrer
  * @param {string} element - Nom de la propriété à extraire (si array est à true)
- * @param {boolean} array - True si elementsToFilter est un tableau
+ * @param {boolean} isArray - True si elementsToFilter est un tableau
  * @returns {Set} - Ensemble des éléments uniques
  */
-export function getFilteredUniqueItems(recipes, elementsToFilter, element = null, array = false) {
+export function getFilteredUniqueItems(recipes, elementsToFilter, element = null, isArray = false) {
     const itemsSet = new Set();
 
-    if (array) {
+    if (isArray) {
         recipes.forEach(recipe => {
             recipe[elementsToFilter].forEach(item => {
                 itemsSet.add(element === null ? item : item[element]);
