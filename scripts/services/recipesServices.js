@@ -11,7 +11,7 @@ import { filterByAppliance, filterByIngredients, filterByUstensils } from "../ut
  */
 export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
     try {
-        const response = await fetch('/data/recipes.json');
+        const response = await fetch('data/recipes.json');
         if (!response.ok) {
             console.error(`Erreur HTTP Status: ${response.status}`);
         }
