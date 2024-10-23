@@ -19,7 +19,7 @@ function createImageElement(recipe) {
 
     const img = document.createElement('img');
     img.classList.add('card-image');
-    img.src = `/assets/images/${recipe.image}`;
+    img.src = `assets/images/${recipe.image}`;
 
     imageContainer.appendChild(img);
     return imageContainer;
