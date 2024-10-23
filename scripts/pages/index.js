@@ -1,6 +1,7 @@
 import { createRecipeCard } from "../components/createRecipeCard.js";
 import { fetchRecipes, getFilteredUniqueItems } from "../services/recipesServices.js";
 import { openDropdrownMenus } from "../ui/dropdownMenus.js";
+import { setRecipesCounter } from "../ui/recipesCounter.js";
 import { deleteSearchInputValue, searchListener } from "../ui/searchBar.js";
 import { addOptionsToDropdownMenus } from "../utils/dropdownMenuUtils.js";
 import { noResultFound } from "../utils/noResultUtils.js";
@@ -52,6 +53,8 @@ export async function displayCards(recipes) {
             fragment.appendChild(card);
         });
 
+        // Affiche le nombre de recettes
+        setRecipesCounter(recipes.length);
         cardsContainer.appendChild(fragment);
 
     } catch (error) {
