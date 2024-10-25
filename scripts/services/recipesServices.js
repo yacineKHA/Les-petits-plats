@@ -34,15 +34,19 @@ export async function fetchRecipes(searchValue = null, selectedFilters = {}) {
 */
 export function searchRecipes(recipes, searchValue) {
     const lowerCaseSearchValue = searchValue.toLowerCase();
-    const filteredRecipes = recipes.filter(recipe => {
-        return (
-            recipe.name.toLowerCase().includes(lowerCaseSearchValue) ||
-            recipe.description.toLowerCase().includes(lowerCaseSearchValue) ||
 
-            // Some => pour verifier si au moins un élément du tableau (ingredients) correspond à la recherche (s'arrête dans ce cas)
-            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(lowerCaseSearchValue))
+    const filteredRecipes = recipes.filter(recipe => {
+        // Vérifie le nom et description en premier
+        if (recipe.name.toLowerCase().includes(lowerCaseSearchValue) || recipe.description.toLowerCase().includes(lowerCaseSearchValue)) {
+            return true;
+        }
+        
+        // Sinon vérifie les ingrédients
+        return recipe.ingredients.some(ingredient => 
+            ingredient.ingredient.toLowerCase().includes(lowerCaseSearchValue)
         );
     });
+
     return filteredRecipes;
 }
 

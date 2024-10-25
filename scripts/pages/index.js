@@ -40,7 +40,6 @@ export async function initializeFiltersInDropdownMenus(recipes) {
  * Affiche la liste des recettes (sous forme de cards)
  *
  * @param {array} recipes Tableau des recettes
- *
  */
 export async function displayCards(recipes) {
     try {
